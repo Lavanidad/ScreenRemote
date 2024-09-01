@@ -1,0 +1,44 @@
+plugins {
+    id 'com.android.application'
+}
+
+// Apply config.gradle
+apply from: rootProject.file('config.gradle')
+
+android {
+    namespace appConfig.namespace
+    compileSdk appConfig.compileSdk
+
+    defaultConfig {
+        applicationId appConfig.applicationId
+        minSdk sdk.minSdk
+        targetSdk sdk.targetSdk
+        versionCode sdk.versionCode
+        versionName sdk.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation libraries.appcompat
+    implementation libraries.material
+    implementation libraries.activity
+    implementation libraries.constraintLayout
+    testImplementation libraries.junit
+    androidTestImplementation libraries.extJUnit
+    androidTestImplementation libraries.espressoCore
+    implementation(platform(kotlin.bom))
+}

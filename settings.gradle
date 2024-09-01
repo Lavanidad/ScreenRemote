@@ -1,0 +1,22 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
+buildCache {
+    local {
+        directory = file("${settingsDir}/.buildCache")
+        removeUnusedEntriesAfterDays = 30
+    }
+}
+
+rootProject.name = "ScreenRemote"
+include ':app'
+
+// 如果 `config.gradle` 不需要在此处应用，你可以移除这行。
+apply from: 'config.gradle'
+include ':app'
+include ':lib_common'

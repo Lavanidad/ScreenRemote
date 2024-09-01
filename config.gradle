@@ -1,0 +1,46 @@
+ext {
+
+    appConfig = [
+            namespace   : 'com.ljkj.screenremote',
+            compileSdk   : 34,
+            applicationId: 'com.ljkj.screenremote',
+    ]
+
+    libConfig = [
+            namespace   : 'com.ljkj.lib_common',
+    ]
+
+    sdk = [
+            minSdk     : 24,
+            targetSdk  : 34,
+            versionCode: 1,
+            versionName: "1.0"
+    ]
+
+    versions = [
+            appcompat: '1.6.1',
+            material: '1.9.0',
+            activity: '1.8.0',
+            constraintLayout: '2.1.4',
+            junit: '4.13.2',
+            extJUnit: '1.1.5',
+            espressoCore: '3.5.1',
+            kotlinBomVersion  : '1.8.0'
+    ]
+
+    kotlin = [
+            bom: "org.jetbrains.kotlin:kotlin-bom:${versions.kotlinBomVersion}"
+    ]
+
+    libraries = [
+            appcompat: "androidx.appcompat:appcompat:${versions.appcompat}",
+            material: "com.google.android.material:material:${versions.material}",
+            activity: "androidx.activity:activity:${versions.activity}",
+            constraintLayout: "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}",
+            junit: "junit:junit:${versions.junit}",
+            extJUnit: "androidx.test.ext:junit:${versions.extJUnit}",
+            espressoCore: "androidx.test.espresso:espresso-core:${versions.espressoCore}"
+    ]
+
+
+}

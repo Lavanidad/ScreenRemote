@@ -1,0 +1,41 @@
+plugins {
+    id 'com.android.library'
+}
+
+// Apply config.gradle
+apply from: rootProject.file('config.gradle')
+
+android {
+    namespace libConfig.namespace // 使用 config 中的 namespace
+    compileSdk appConfig.compileSdk // 使用 config 中的 compileSdk
+
+    defaultConfig {
+        minSdk sdk.minSdk // 使用 config 中的 minSdk
+        targetSdk sdk.targetSdk // 使用 config 中的 targetSdk
+        // 库模块不需要 versionCode 和 versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro" // 如果有需要
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation libraries.appcompat
+    implementation libraries.material
+    testImplementation libraries.junit
+    androidTestImplementation libraries.extJUnit
+    androidTestImplementation libraries.espressoCore
+    implementation(platform(kotlin.bom))
+}
