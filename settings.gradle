@@ -1,6 +1,19 @@
 pluginManagement {
     repositories {
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
         gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
         google()
         mavenCentral()
     }
@@ -16,7 +29,4 @@ buildCache {
 rootProject.name = "ScreenRemote"
 include ':app'
 
-// 如果 `config.gradle` 不需要在此处应用，你可以移除这行。
-apply from: 'config.gradle'
-include ':app'
 include ':lib_common'

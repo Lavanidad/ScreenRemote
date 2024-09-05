@@ -1,21 +1,16 @@
 plugins {
-    id 'com.android.library'
+    alias(libs.plugins.android.library)
 }
 
-// Apply config.gradle
-apply from: rootProject.file('config.gradle')
-
 android {
-    namespace libConfig.namespace // 使用 config 中的 namespace
-    compileSdk appConfig.compileSdk // 使用 config 中的 compileSdk
+    namespace "com.ljkj.lib_common"
+    compileSdk Integer.parseInt(libs.versions.compileSdk.get())
 
     defaultConfig {
-        minSdk sdk.minSdk // 使用 config 中的 minSdk
-        targetSdk sdk.targetSdk // 使用 config 中的 targetSdk
-        // 库模块不需要 versionCode 和 versionName
+        minSdk Integer.parseInt(libs.versions.minSdk.get())
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro" // 如果有需要
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     buildTypes {
@@ -32,10 +27,9 @@ android {
 }
 
 dependencies {
-    implementation libraries.appcompat
-    implementation libraries.material
-    testImplementation libraries.junit
-    androidTestImplementation libraries.extJUnit
-    androidTestImplementation libraries.espressoCore
-    implementation(platform(kotlin.bom))
+    implementation libs.appcompat
+    implementation libs.material
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
 }
