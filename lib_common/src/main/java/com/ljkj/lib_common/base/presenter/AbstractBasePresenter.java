@@ -8,9 +8,9 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * 作者: fzy
  * 日期: 2024/9/5
  */
-public interface AbstractBasePresenter<T extends BaseView> {
+public interface AbstractBasePresenter<V extends BaseView> {
 
-    void attachView(T view);
+    void attachView(V view);
 
     void detachView();
 

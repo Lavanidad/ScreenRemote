@@ -19,7 +19,7 @@ public class BaseRxPresenter<V extends BaseView> implements AbstractBasePresente
     private CompositeDisposable compositeDisposable;
 
     public BaseRxPresenter() {
-
+        //tips:依赖倒置原则，子类自由按需注入
     }
 
     protected void addEventSubscribe(Disposable disposable) {

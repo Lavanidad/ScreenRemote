@@ -20,7 +20,7 @@ import javax.inject.Inject;
  * 作者: fzy
  * 日期: 2024/9/5
  */
-public abstract class BaseActivity<P extends AbstractBasePresenter<BaseView>> extends AbstractBaseActivity implements BaseView {
+public abstract class BaseActivity<P extends AbstractBasePresenter> extends AbstractBaseActivity implements BaseView {
 
     //Presenter 对象注入 (注意不能使用 private )
     @Inject
