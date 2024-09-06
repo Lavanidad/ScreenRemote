@@ -11,11 +11,11 @@ import io.reactivex.rxjava3.disposables.Disposable;
  * 作者: fzy
  * 日期: 2024/9/5
  */
-public class BaseRxPresenter<T extends BaseView> implements AbstractBasePresenter<T> {
+public class BaseRxPresenter<V extends BaseView> implements AbstractBasePresenter<V> {
 
     public static final String TAG = BaseRxPresenter.class.getSimpleName();
 
-    protected T mView;
+    protected V mView;
     private CompositeDisposable compositeDisposable;
 
     public BaseRxPresenter() {
@@ -30,7 +30,7 @@ public class BaseRxPresenter<T extends BaseView> implements AbstractBasePresente
     }
 
     @Override
-    public void attachView(T view) {
+    public void attachView(V view) {
         this.mView = view;
         if (mView != null) {
             Log.e(TAG, "mView 不为空" + mView.getClass());

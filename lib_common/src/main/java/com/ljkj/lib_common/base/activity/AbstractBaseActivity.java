@@ -7,11 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * 作者: fzy
- * 日期: 2024/9/5
- */
 public abstract class AbstractBaseActivity extends AppCompatActivity {
+
+    protected AbstractBaseActivity mContext;
 
     private Unbinder mUnbinder;
 
@@ -20,12 +18,14 @@ public abstract class AbstractBaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         mUnbinder = ButterKnife.bind(this);
+        mContext = this;
         initView();
         initData();
         initListener();
     }
 
     protected abstract int getLayout();
+
 
     protected abstract void initView();
 
@@ -34,12 +34,12 @@ public abstract class AbstractBaseActivity extends AppCompatActivity {
     protected abstract void initListener();
 
 
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mUnbinder != null) {
-            mUnbinder.unbind();
-            mUnbinder = null;
-        }
+        mUnbinder.unbind();
+        mUnbinder = null;
     }
 }
