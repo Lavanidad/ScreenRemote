@@ -1,6 +1,7 @@
 package com.ljkj.lib_common.helper;
 
 
+import com.ljkj.lib_common.bean.TestBean;
 import com.ljkj.lib_common.http.api.ApiService;
 
 import javax.inject.Inject;
@@ -25,7 +26,7 @@ public class HttpHelper implements IHttpHelper {
         this.mNetworkHelper = networkHelper;
     }
 
-    public Observable<String> getTest() {
+    public Observable<TestBean> getTest() {
         return getApiService().getTest();
     }
 

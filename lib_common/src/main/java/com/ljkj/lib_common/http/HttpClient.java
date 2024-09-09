@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import io.reactivex.rxjava3.core.Observable;
 
+
 /**
  * 作者: fzy
  * 日期: 2024/9/6
@@ -21,7 +22,8 @@ public class HttpClient {
         this.httpHelper = helper;
     }
 
-    public Observable<String> getTest() {
+
+    public Observable<TestBean> getTest() {
         // 添加自定义逻辑（例如日志记录、错误处理等）
         return httpHelper.getTest();
     }

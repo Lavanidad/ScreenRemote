@@ -52,7 +52,7 @@ public class BaseRxPresenter<V extends BaseView> implements AbstractBasePresente
 
     @Override
     public boolean isViewAttached() {
-        return false;
+        return mView != null;
     }
 
     @Override

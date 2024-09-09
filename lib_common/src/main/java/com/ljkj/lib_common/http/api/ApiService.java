@@ -15,10 +15,10 @@ import retrofit2.http.POST;
  */
 public interface ApiService {
 
-    @GET("harmony/index/json")
-    Observable getTest();
+    @GET("tools/list/json")
+    Observable<TestBean> getTest();
 
     @FormUrlEncoded
     @POST("user/login")
-    Observable postTest(@Field("username") String username, @Field("password") String password, @Field("repassword") String repassword);
+    Observable<String> postTest(@Field("username") String username, @Field("password") String password, @Field("repassword") String repassword);
 }

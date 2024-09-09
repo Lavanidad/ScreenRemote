@@ -1,6 +1,8 @@
 package com.ljkj.screenremote.view.main;
 
 
+import android.util.Log;
+
 import com.ljkj.lib_common.base.activity.BaseActivity;
 import com.ljkj.screenremote.R;
 
@@ -31,6 +33,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
 
     @Override
     public void showGet(String msg) {
+        Log.i("Main", msg);
+    }
+
+    @Override
+    public void showErrorMsg(String errorMsg) {
+        Log.i("Main2", errorMsg);
 
     }
 }

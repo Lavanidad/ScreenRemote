@@ -1,6 +1,7 @@
 package com.ljkj.screenremote.view.main;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.ljkj.lib_common.base.presenter.BaseRxPresenter;
 import com.ljkj.lib_common.bean.TestBean;
@@ -54,16 +55,18 @@ public class MainPresenter extends BaseRxPresenter<MainContract.MainView> implem
 
     @Override
     public void sendGet() {
-        Observable<String> responseBodyObservable = mHttpClient.getTest();
+        Observable<TestBean> responseBodyObservable = mHttpClient.getTest();
         responseBodyObservable.compose(RxSchedulers.observableIO2Main())
-                .subscribe(new BaseObserver<>() {
+                .subscribe(new BaseObserver<TestBean>() {
                     @Override
-                    public void onSuccess(String result) {
+                    public void onSuccess(TestBean result) {
+                        Log.i("Main3",result.toString());
                         mView.showGet(String.valueOf(result));
                     }
 
                     @Override
                     public void onFailure(Throwable e, String errorMsg) {
+                        Log.i("Main4",errorMsg);
                         mView.showErrorMsg(errorMsg);
                     }
                 });

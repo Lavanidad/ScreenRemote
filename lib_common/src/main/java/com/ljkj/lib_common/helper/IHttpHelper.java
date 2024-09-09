@@ -1,5 +1,7 @@
 package com.ljkj.lib_common.helper;
 
+import com.ljkj.lib_common.bean.TestBean;
+
 import io.reactivex.rxjava3.core.Observable;
 
 /**
@@ -9,7 +11,7 @@ import io.reactivex.rxjava3.core.Observable;
  */
 public interface IHttpHelper {
 
-    Observable getTest();
+    Observable<TestBean> getTest();
 
     Observable postTest(String phone, String pwd, String rpwd);
 }

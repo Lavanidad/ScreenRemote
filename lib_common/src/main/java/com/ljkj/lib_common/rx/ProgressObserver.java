@@ -1,5 +1,6 @@
 package com.ljkj.lib_common.rx;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 
@@ -26,7 +27,7 @@ public abstract class ProgressObserver<T> extends BaseObserver<T> {
 
     @Override
     public void onSubscribe(Disposable d) {
-        if (!d.isDisposed()) {
+        if (!d.isDisposed() && mContext instanceof Activity && !((Activity) mContext).isFinishing()) {
             progressDialog = new ProgressDialog(mContext);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setCanceledOnTouchOutside(false);
@@ -34,6 +35,7 @@ public abstract class ProgressObserver<T> extends BaseObserver<T> {
             progressDialog.show();
         }
     }
+
 
     @Override
     public void onComplete() {

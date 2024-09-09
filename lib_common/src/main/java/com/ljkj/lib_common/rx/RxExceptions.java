@@ -18,7 +18,7 @@ import retrofit2.HttpException;
 public class RxExceptions {
 
     public static String exceptionHandler(Throwable throwable) {
-        String errorMsg = "未知异常";
+        String errorMsg = "未知异常" + throwable.getMessage();
         if (throwable instanceof UnknownHostException) {
             errorMsg = "网络不可用";
         } else if (throwable instanceof SocketTimeoutException) {
