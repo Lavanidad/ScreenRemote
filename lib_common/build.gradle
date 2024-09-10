@@ -52,5 +52,7 @@ dependencies {
     implementation(libs.dagger.android.support)
     annotationProcessor(libs.dagger.android.processor)
     implementation(libs.utilcode)
+    implementation(libs.toaster)
+    implementation(libs.xxpermissions);
 
 }

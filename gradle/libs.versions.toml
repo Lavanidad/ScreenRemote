@@ -24,6 +24,8 @@ rxandroid = "3.0.0"
 utilcode = "1.31.1"
 rxlifecycler = "4.0.2"
 okio = "3.0.0"
+toaster = "12.6"
+xxpermissions = "20.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -36,6 +38,8 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 
 butterknife = { module = "com.jakewharton:butterknife", version.ref = "butterknife" }
 utilcode = { module = "com.blankj:utilcodex", version.ref = "utilcode" }
+toaster = { module = "com.github.getActivity:Toaster", version.ref = "toaster" }
+xxpermissions = { module = "com.github.getActivity:XXPermissions", version.ref = "xxpermissions" }
 
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }

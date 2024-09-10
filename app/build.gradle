@@ -43,6 +43,9 @@ dependencies {
     implementation(libs.dagger.android)
     implementation(libs.dagger.android.support)
     annotationProcessor(libs.dagger.android.processor)
+    implementation(libs.toaster)
+    implementation(libs.xxpermissions)
 
     implementation project(path: ':lib_common')
+    implementation files("libs/rcsdk-v1.6.2.aar")
 }

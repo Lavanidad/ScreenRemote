@@ -6,7 +6,14 @@ import android.util.Log;
 import com.ljkj.lib_common.base.activity.BaseActivity;
 import com.ljkj.lib_common.bean.SharingPathListBean;
 import com.ljkj.lib_common.http.api.ApiResponse;
+import com.ljkj.lib_common.utils.PermissionUtils;
 import com.ljkj.screenremote.R;
+import com.skydroid.rcsdk.PipelineManager;
+import com.skydroid.rcsdk.RCSDKManager;
+import com.skydroid.rcsdk.SDKManagerCallBack;
+import com.skydroid.rcsdk.comm.CommListener;
+import com.skydroid.rcsdk.common.error.SkyException;
+import com.skydroid.rcsdk.common.pipeline.Pipeline;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -19,6 +26,8 @@ import java.util.Random;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.MainView {
 
+    private final String TAG = MainActivity.class.getSimpleName();
+
     @Override
     protected int getLayout() {
         return R.layout.activity_main;
@@ -27,6 +36,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     @Override
     protected void initView() {
         super.initView();
+        PermissionUtils.requestPermissions(this);
+
     }
 
     @Override
@@ -57,26 +68,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         }
 
         mPresenter.sendPost2(page_index + "", page_size + "", lat + "", lnt + "", -1);
-    }
-
-    public static String md5(String content) {
-        byte[] hash;
-        try {
-            hash = MessageDigest.getInstance("MD5").digest(content.getBytes("UTF-8"));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Huh, MD5 should be supported?", e);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("Huh, UTF-8 should be supported?", e);
-        }
-
-        StringBuilder hex = new StringBuilder(hash.length * 2);
-        for (byte b : hash) {
-            if ((b & 0xFF) < 0x10) hex.append("0");
-            hex.append(Integer.toHexString(b & 0xFF));
-        }
-
-        return hex.toString();
-
     }
 
     @Override
