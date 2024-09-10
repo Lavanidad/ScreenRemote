@@ -1,5 +1,7 @@
 package com.ljkj.screenremote.di.module;
 
+import android.content.Context;
+
 import com.ljkj.lib_common.helper.HttpHelper;
 import com.ljkj.lib_common.helper.NetworkHelper;
 import com.ljkj.lib_common.http.HttpClient;
@@ -17,10 +19,22 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
+    private final Context context;
+
+    public AppModule(Context context) {
+        this.context = context;
+    }
+
     @Provides
     @Singleton
-    public NetworkHelper providerNetworkHelper(){
-        return new NetworkHelper();
+    public Context provideContext() {
+        return context;
+    }
+
+    @Provides
+    @Singleton
+    public NetworkHelper providerNetworkHelper(Context context){
+        return new NetworkHelper(context);
     }
 
     @Provides

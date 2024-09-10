@@ -1,13 +1,24 @@
 package com.ljkj.lib_common.helper;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.ljkj.lib_common.common.CommonConstants;
 import com.ljkj.lib_common.http.api.ApiService;
+import com.ljkj.lib_common.http.interceptor.CacheInterceptor;
+import com.ljkj.lib_common.http.interceptor.CookieInterceptor;
+import com.ljkj.lib_common.http.interceptor.HeaderInterceptor;
+import com.ljkj.lib_common.http.interceptor.LoggingInterceptor;
+import com.ljkj.lib_common.http.interceptor.RetryInterceptor;
 ;
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import okhttp3.Cache;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -21,32 +32,46 @@ public class NetworkHelper {
 
     private static final String TAG = NetworkHelper.class.getSimpleName();
     private final ApiService apiService;
+    private final Context context;
 
     @Inject
-    public NetworkHelper() {
-        Retrofit retrofit = new Retrofit.Builder()
+    public NetworkHelper(Context context) {
+        this.context = context;
+        Retrofit retrofit = createRetrofit();
+        apiService = retrofit.create(ApiService.class);
+    }
+
+    private Retrofit createRetrofit() {
+        return new Retrofit.Builder()
                 .baseUrl(CommonConstants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(getOkHttpClient())
                 .build();
-
-        apiService = retrofit.create(ApiService.class);
     }
 
     public ApiService getApiService() {
         return apiService;
     }
 
-    private OkHttpClient getOkHttpClient() {
-        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
 
-        clientBuilder.connectTimeout(30, TimeUnit.SECONDS)
+    private OkHttpClient getOkHttpClient() {
+
+        File cacheDir = new File(context.getCacheDir(), "http_cache");
+        Cache cache = new Cache(cacheDir, 10 * 1024 * 1024);
+
+        return new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)
-                .retryOnConnectionFailure(true);
-
-        return clientBuilder.build();
+                .retryOnConnectionFailure(true)
+                .cache(cache)
+                .addInterceptor(new HeaderInterceptor())
+                .addInterceptor(new LoggingInterceptor())
+                .addInterceptor(new CacheInterceptor())
+                .addInterceptor(new CookieInterceptor())
+                .addNetworkInterceptor(new RetryInterceptor(3, 1000))
+                .build();
     }
 }
 

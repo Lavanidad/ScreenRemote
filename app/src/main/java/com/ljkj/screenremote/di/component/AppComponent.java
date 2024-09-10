@@ -1,7 +1,5 @@
 package com.ljkj.screenremote.di.component;
 
-import android.app.Application;
-
 import com.ljkj.screenremote.MyApplication;
 import com.ljkj.screenremote.di.module.AppModule;
 import com.ljkj.screenremote.di.module.ActivityBindingModule;
@@ -31,6 +29,8 @@ public interface AppComponent extends AndroidInjector<MyApplication> {
     interface Builder {
         @BindsInstance
         Builder application(MyApplication application);
+
+        Builder appModule(AppModule appModule);
 
         AppComponent build();
     }

@@ -4,8 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ljkj.lib_common.base.presenter.BaseRxPresenter;
+import com.ljkj.lib_common.bean.SharingPathListBean;
 import com.ljkj.lib_common.bean.TestBean;
 import com.ljkj.lib_common.http.HttpClient;
+import com.ljkj.lib_common.http.api.ApiResponse;
 import com.ljkj.lib_common.rx.BaseObserver;
 import com.ljkj.lib_common.rx.ProgressObserver;
 import com.ljkj.lib_common.rx.RxSchedulers;
@@ -60,15 +62,33 @@ public class MainPresenter extends BaseRxPresenter<MainContract.MainView> implem
                 .subscribe(new BaseObserver<TestBean>() {
                     @Override
                     public void onSuccess(TestBean result) {
-                        Log.i("Main3",result.toString());
+                        Log.i("Main3", result.toString());
                         mView.showGet(String.valueOf(result));
                     }
 
                     @Override
                     public void onFailure(Throwable e, String errorMsg) {
-                        Log.i("Main4",errorMsg);
+                        Log.i("Main4", errorMsg);
                         mView.showErrorMsg(errorMsg);
                     }
                 });
+    }
+
+    @Override
+    public void sendPost2(String page_index, String page_size, String lat, String lng, int path_type) {
+        Observable<ApiResponse<SharingPathListBean>> responseObservable = mHttpClient.postTest2(page_index, page_size, lat, lng, path_type);
+        responseObservable.compose(RxSchedulers.observableIO2Main())
+                .subscribe(new BaseObserver<ApiResponse<SharingPathListBean>>() {
+                    @Override
+                    public void onSuccess(ApiResponse<SharingPathListBean> result) {
+                        mView.showPost2(result);
+                    }
+
+                    @Override
+                    public void onFailure(Throwable e, String errorMsg) {
+                        mView.showErrorMsg(errorMsg);
+                    }
+                });
+
     }
 }
