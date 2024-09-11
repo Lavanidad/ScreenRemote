@@ -1,4 +1,4 @@
-package com.ljkj.screenremote.view.main;
+package com.ljkj.screenremote.ui.main;
 
 import android.content.Context;
 import android.util.Log;

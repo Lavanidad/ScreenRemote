@@ -2,7 +2,7 @@ package com.ljkj.screenremote.di.module;
 
 import com.ljkj.screenremote.di.module.activity.MainActivityModule;
 import com.ljkj.screenremote.di.scope.ActivityScope;
-import com.ljkj.screenremote.view.main.MainActivity;
+import com.ljkj.screenremote.ui.main.MainActivity;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;

@@ -1,8 +1,8 @@
 package com.ljkj.screenremote.di.module.activity;
 
 import com.ljkj.screenremote.di.scope.ActivityScope;
-import com.ljkj.screenremote.view.main.MainContract;
-import com.ljkj.screenremote.view.main.MainPresenter;
+import com.ljkj.screenremote.ui.main.MainContract;
+import com.ljkj.screenremote.ui.main.MainPresenter;
 
 import dagger.Binds;
 import dagger.Module;
