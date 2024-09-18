@@ -1,20 +1,23 @@
 package com.ljkj.screenremote.ui.main;
 
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.amap.api.location.AMapLocationClient;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.MapsInitializer;
 import com.ljkj.lib_common.base.activity.BaseActivity;
 import com.ljkj.lib_common.bean.SharingPathListBean;
 import com.ljkj.lib_common.http.api.ApiResponse;
+import com.ljkj.lib_common.receiver.BatteryLevelReceiver;
 import com.ljkj.lib_common.utils.PermissionUtils;
 
+import com.ljkj.screenremote.R;
 import com.ljkj.screenremote.databinding.ActivityMainBinding;
 import com.ljkj.screenremote.manager.ControllerManager;
 import com.ljkj.screenremote.manager.FPVPlayerManager;
@@ -33,7 +36,10 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
     private MapView mapView;
     private AMap aMap;
 
+    private BatteryLevelReceiver batteryReceiver;
+
     private String streamUrl = "rtsp://192.168.144.108:554/stream=0";
+
 
     @Override
     protected ActivityMainBinding getBinding() {
@@ -49,13 +55,17 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
         controllerManager = ControllerManager.getInstance(this);
 //        controllerManager.init();
 
-        fpvPlayerManager = FPVPlayerManager.getInstance(binding.fpvWidget, streamUrl);
+//        fpvPlayerManager = FPVPlayerManager.getInstance(binding.fpvWidget, streamUrl);
     }
 
     @Override
     protected void initMapView(@Nullable Bundle savedInstanceState) {
         super.initMapView(savedInstanceState);
-        mapView = binding.map;
+
+        MapsInitializer.updatePrivacyShow(this, true, true);
+        MapsInitializer.updatePrivacyAgree(this, true);
+
+        mapView = findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);
         aMap = mapView.getMap();
 
@@ -69,6 +79,10 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
     protected void initData() {
         super.initData();
 
+        registerBroadcast(batteryReceiver);
+
+
+
         double lat = 32.81275597;
         double lnt = 118.7267046;
 
@@ -80,7 +94,23 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
         controllerManager.setRcSerialDataCallback(data -> {
 
         });
+
+        batteryReceiver = new BatteryLevelReceiver(percent -> {
+
+        });
     }
+
+    /**
+     * 注册广播
+     */
+    private void registerBroadcast(BatteryLevelReceiver batteryReceiver) {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_BATTERY_CHANGED);
+        filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        registerReceiver(batteryReceiver, filter);
+    }
+
 
     @Override
     public void showPost(String msg) {
@@ -111,6 +141,9 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
         }
         if (fpvPlayerManager != null) {
             fpvPlayerManager.release();
+        }
+        if (mapManager != null) {
+            mapManager.release();
         }
     }
 }

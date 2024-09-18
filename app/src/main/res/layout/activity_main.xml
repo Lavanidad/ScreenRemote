@@ -9,7 +9,6 @@
 
     <com.amap.api.maps.MapView
         android:id="@+id/map"
-        android:background="#ffffffff"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </com.amap.api.maps.MapView>
@@ -130,7 +129,7 @@
 
             <TextView
                 android:id="@+id/tv_battery"
-                android:text="68%"
+                android:text="0%"
                 android:textSize="18sp"
                 android:textColor="#86E3FF"
                 android:layout_marginEnd="6dp"

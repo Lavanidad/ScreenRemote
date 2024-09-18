@@ -68,7 +68,12 @@ public class MapManager {
      */
     public void init(AMap aMap) {
         this.aMap = aMap;
-
+        if (aMap == null) {
+            Log.e(TAG, "AMap is null, initialization failed");
+            return;
+        } else {
+            Log.d(TAG, "AMap initialized successfully");
+        }
         this.aMap.setTrafficEnabled(true); // 显示实时交通状况
         this.aMap.setMapType(AMap.MAP_TYPE_NORMAL);
 
@@ -78,12 +83,12 @@ public class MapManager {
         aMap.animateCamera(CameraUpdateFactory.newCameraPosition(
                 new CameraPosition(cameraPosition.target, cameraPosition.zoom, cameraPosition.tilt, bearing)
         ));
+        Log.i(TAG, "Camera position set to: " + cameraPosition.target.latitude + ", " + cameraPosition.target.longitude);
 
         // 监控地图转的角度
         aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
-                Log.d(TAG, "地图旋转角度" + cameraPosition.bearing);
                 if (markerA != null) {
                     markerA.setRotateAngle(360 - cameraPosition.bearing);
                 }
@@ -94,12 +99,14 @@ public class MapManager {
 
             @Override
             public void onCameraChangeFinish(CameraPosition cameraPosition) {
+                Log.d(TAG, "Camera change finished at: " + cameraPosition.target.latitude + ", " + cameraPosition.target.longitude);
             }
         });
     }
 
     /**
      * 实时定位
+     * 如需开启：aMap.setMyLocationEnabled(true);
      */
     public void locationInTime() {
         MyLocationStyle myLocationStyle = new MyLocationStyle();
@@ -109,7 +116,7 @@ public class MapManager {
 
         aMap.setMyLocationStyle(myLocationStyle); // 设置定位蓝点的Style
 
-        aMap.setMyLocationEnabled(false); // 隐藏定位蓝点并不进行定位
+        aMap.setMyLocationEnabled(false); //隐藏定位蓝点并不进行定位
 
         aMap.getUiSettings().setMyLocationButtonEnabled(false); // 显示默认的定位按钮
         aMap.getUiSettings().setScaleControlsEnabled(false); // 控制比例尺控件是否展示
@@ -121,19 +128,22 @@ public class MapManager {
     public void initLocation(Context context) {
         try {
             mLocationClient = new AMapLocationClient(context);
-            mLocationClient.updatePrivacyShow(context, true, true);
-            mLocationClient.updatePrivacyAgree(context, true);
             mLocationClient.setLocationListener(new AMapLocationListener() {
                 @Override
                 public void onLocationChanged(AMapLocation amapLocation) {
                     if (amapLocation != null) {
                         if (amapLocation.getErrorCode() == 0) {
-                            Log.e(TAG, "location Error, ErrCode = 0" + amapLocation.getErrorCode() +
+                            Log.e(TAG, "location Success" + amapLocation.getErrorCode() +
                                     ", errInfo:" + amapLocation.getErrorInfo());
+                            // 获取当前位置，并将地图的摄像头移到当前位置
+//                            LatLng currentLocation = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+//                            aMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f)); // 移动地图到定位点
                         } else {
                             Log.e(TAG, "location Error, ErrCode:" + amapLocation.getErrorCode() +
                                     ", errInfo:" + amapLocation.getErrorInfo());
                         }
+                    } else {
+                        Log.e(TAG, "AMapLocation is null");
                     }
                 }
             });
@@ -142,7 +152,10 @@ public class MapManager {
             mLocationOption.setLocationPurpose(AMapLocationClientOption.AMapLocationPurpose.Transport);
             mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
             mLocationOption.setInterval(1000);
+            mLocationOption.setOnceLocationLatest(true);
             mLocationClient.setLocationOption(mLocationOption);
+//            mLocationClient.startLocation();
+
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "Failed to initialize location client: " + e.getMessage());
@@ -335,9 +348,12 @@ public class MapManager {
     }
 
     public void release() {
-        aMap.clear();
+        if (aMap != null) {
+            aMap.clear();
+        }
         if (mLocationClient != null) {
             mLocationClient.stopLocation();
+            mLocationClient = null;
         }
     }
 
