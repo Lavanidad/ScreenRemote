@@ -19,5 +19,7 @@ public class CommonConstants {
     //苏宁
 //        double lat = 32.6155776;
 //        double lnt = 118.0686208;
+
+    public static final String RTSP_URL = "rtsp://192.168.144.108:554/stream=0";
 }
 

@@ -1,6 +1,5 @@
 package com.ljkj.lib_common.base.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,20 +8,20 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.viewbinding.ViewBinding;
 
 import com.ljkj.lib_common.base.BaseView;
 import com.ljkj.lib_common.base.presenter.AbstractBasePresenter;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
 import dagger.android.support.AndroidSupportInjection;
 
 /**
  * 作者: fzy
  * 日期: 2024/9/6
  */
-public abstract class BaseFragment<P extends AbstractBasePresenter<BaseView>> extends AbstractBaseFragment implements BaseView {
+public abstract class BaseFragment<P extends AbstractBasePresenter<BaseView>, VB extends ViewBinding> extends AbstractBaseFragment<VB> implements BaseView {
 
     @Inject
     protected P mPresenter;
@@ -38,10 +37,10 @@ public abstract class BaseFragment<P extends AbstractBasePresenter<BaseView>> ex
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutId(), container, false);
-        mUnbinder = ButterKnife.bind(this, view);
-        return view;
+        binding = getViewBinding(inflater, container);
+        return binding.getRoot();
     }
+
 
 
     @Override
@@ -58,13 +57,10 @@ public abstract class BaseFragment<P extends AbstractBasePresenter<BaseView>> ex
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mUnbinder != null) {
-            mUnbinder.unbind();
-        }
         if (mPresenter != null) {
             mPresenter.detachView();
         }
-        view = null;
+        binding = null;
     }
 
 
@@ -83,7 +79,6 @@ public abstract class BaseFragment<P extends AbstractBasePresenter<BaseView>> ex
     }
 
     @Override
-    protected int getLayoutId() {
-        return 0;
-    }
+    protected abstract VB getViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container);
+
 }

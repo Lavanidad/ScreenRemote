@@ -36,7 +36,6 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
-butterknife = { module = "com.jakewharton:butterknife", version.ref = "butterknife" }
 utilcode = { module = "com.blankj:utilcodex", version.ref = "utilcode" }
 toaster = { module = "com.github.getActivity:Toaster", version.ref = "toaster" }
 xxpermissions = { module = "com.github.getActivity:XXPermissions", version.ref = "xxpermissions" }

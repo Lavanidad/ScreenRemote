@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewbinding.ViewBinding;
 
 import com.ljkj.lib_common.base.BaseView;
 import com.ljkj.lib_common.base.presenter.AbstractBasePresenter;
@@ -20,11 +21,13 @@ import javax.inject.Inject;
  * 作者: fzy
  * 日期: 2024/9/5
  */
-public abstract class BaseActivity<P extends AbstractBasePresenter> extends AbstractBaseActivity implements BaseView {
+public abstract class BaseActivity<P extends AbstractBasePresenter, VB extends ViewBinding> extends AbstractBaseActivity<VB> implements BaseView {
 
     //Presenter 对象注入 (注意不能使用 private )
     @Inject
     protected P mPresenter;
+
+    protected VB binding;
 
     @Inject
     DispatchingAndroidInjector<Fragment> supportFragmentInjector;
@@ -36,15 +39,18 @@ public abstract class BaseActivity<P extends AbstractBasePresenter> extends Abst
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
-    }
-
-
-
-    @Override
-    protected void initView() {
         if (mPresenter != null) {
             mPresenter.attachView(this);
         }
+        initView();
+        initMapView(savedInstanceState);
+    }
+
+    protected void initMapView(@Nullable Bundle savedInstanceState) {
+    }
+
+    @Override
+    protected void initView() {
     }
 
     @Override
@@ -67,8 +73,8 @@ public abstract class BaseActivity<P extends AbstractBasePresenter> extends Abst
     }
 
     @Override
-    protected int getLayout() {
-        return 0;
+    protected VB getBinding() {
+        return null;
     }
 
     @Override

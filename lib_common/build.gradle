@@ -24,6 +24,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -45,7 +49,6 @@ dependencies {
     implementation(libs.rxlifecycler)
     implementation(libs.rxlifecycler.android)
     implementation(libs.rxlifecycler.compnents)
-    implementation(libs.butterknife)
     implementation(libs.dagger)
     annotationProcessor(libs.dagger.compiler)
     implementation(libs.dagger.android)

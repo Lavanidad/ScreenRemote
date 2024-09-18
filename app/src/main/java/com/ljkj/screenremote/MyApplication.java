@@ -1,11 +1,9 @@
 package com.ljkj.screenremote;
 
 import com.hjq.toast.Toaster;
+
 import com.ljkj.screenremote.di.component.DaggerAppComponent;
 import com.ljkj.screenremote.di.module.AppModule;
-import com.skydroid.rcsdk.RCSDKManager;
-import com.skydroid.rcsdk.SDKManagerCallBack;
-import com.skydroid.rcsdk.common.error.SkyException;
 
 import dagger.Module;
 import dagger.android.AndroidInjector;

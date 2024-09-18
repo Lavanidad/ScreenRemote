@@ -8,31 +8,28 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewbinding.ViewBinding;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * 作者: fzy
  * 日期: 2024/9/5
  */
-public abstract class AbstractBaseFragment extends Fragment {
+public abstract class AbstractBaseFragment<VB extends ViewBinding> extends Fragment {
 
-    protected Unbinder mUnbinder;
-    protected View view;
+    protected VB binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(getLayoutId(), container, false);
-        mUnbinder = ButterKnife.bind(this, view);
+        binding = getViewBinding(inflater, container);
         initView();
         initData();
         initListener();
-        return view;
+        return binding.getRoot();
     }
 
-    protected abstract int getLayoutId();
+    protected abstract VB getViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container);
 
     protected abstract void initView();
 
@@ -43,10 +40,6 @@ public abstract class AbstractBaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (mUnbinder != null) {
-            mUnbinder.unbind();
-            mUnbinder = null;
-        }
-        view = null;
+        binding = null;
     }
 }

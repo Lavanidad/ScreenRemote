@@ -33,7 +33,6 @@ public class BaseRxPresenter<V extends BaseView> implements AbstractBasePresente
     public void attachView(V view) {
         this.mView = view;
         if (mView != null) {
-            Log.e(TAG, "mView 不为空" + mView.getClass());
         }
     }
 

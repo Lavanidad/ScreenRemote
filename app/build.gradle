@@ -27,6 +27,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
+    viewBinding {
+        enabled = true
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
 }
 
 dependencies {
@@ -45,7 +56,11 @@ dependencies {
     annotationProcessor(libs.dagger.android.processor)
     implementation(libs.toaster)
     implementation(libs.xxpermissions)
+    implementation(libs.utilcode)
 
     implementation project(path: ':lib_common')
     implementation files("libs/rcsdk-v1.6.2.aar")
+    implementation files("libs/sky-ijkplayer-v1.1.aar")
+    implementation files("libs/fpvplayer-v3.1.6.aar")
+    implementation fileTree(dir: 'libs', includes: ['*.jar'])
 }
