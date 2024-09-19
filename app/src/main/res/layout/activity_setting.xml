@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:background="@drawable/bg_setting_title"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:drawableLeft="@mipmap/back_icon"
+            android:text="@string/back"
+            android:textColor="#ff000000"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/rg_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rb_language"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:button="@null"
+                    android:checked="true"
+                    android:drawableRight="@drawable/rb_setting_xt_into"
+                    android:paddingRight="10dp"
+                    android:text="@string/language"
+                    android:textColor="@drawable/rb_setting_xt_textcolor"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/view_bg" />
+
+                <RadioButton
+                    android:id="@+id/rb_log"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:button="@null"
+                    android:drawableRight="@drawable/rb_setting_xt_into"
+                    android:paddingRight="10dp"
+                    android:text="@string/log_reload"
+                    android:textColor="@drawable/rb_setting_xt_textcolor"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/view_bg" />
+
+                <RadioButton
+                    android:id="@+id/rb_operation"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:button="@null"
+                    android:visibility="gone"
+                    android:drawableRight="@drawable/rb_setting_xt_into"
+                    android:paddingRight="10dp"
+                    android:text="@string/operation_title"
+                    android:textColor="@drawable/rb_setting_xt_textcolor"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:visibility="gone"
+                    android:background="@color/view_bg" />
+
+                <RadioButton
+                    android:id="@+id/rb_upgrade"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:button="@null"
+                    android:drawableRight="@drawable/rb_setting_xt_into"
+                    android:paddingRight="10dp"
+                    android:text="@string/upgrade_title"
+                    android:textColor="@drawable/rb_setting_xt_textcolor"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/view_bg"
+                    android:visibility="visible" />
+
+                <RadioButton
+                    android:id="@+id/rb_produce"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@null"
+                    android:button="@null"
+                    android:drawableRight="@drawable/rb_setting_xt_into"
+                    android:paddingRight="10dp"
+                    android:text="@string/produce_title"
+                    android:textColor="@drawable/rb_setting_xt_textcolor"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/view_bg"
+                    android:visibility="visible" />
+
+            </RadioGroup>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/framelayout_right"
+            android:layout_width="0dp"
+            android:background="@drawable/bg_fragment"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_weight="3">
+
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>

@@ -21,6 +21,8 @@ public class MyApplication extends DaggerApplication {
     public void onCreate() {
         super.onCreate();
         Toaster.init(this);
+
+
     }
 
     @Override

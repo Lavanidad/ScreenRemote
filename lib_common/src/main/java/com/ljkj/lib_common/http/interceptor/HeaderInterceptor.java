@@ -4,7 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.ljkj.lib_common.common.CommonConstants;
+import com.ljkj.lib_common.common.Constants;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -21,8 +21,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.Buffer;
-import okio.BufferedSource;
-import okio.Okio;
 
 /**
  * 作者: fzy
@@ -43,7 +41,7 @@ public class HeaderInterceptor implements Interceptor {
 
         requestBuilder.header("Content-Type", "application/json")
                 .header("Accept", "application/json")
-                .addHeader("Authorization", CommonConstants.Authorization)
+                .addHeader("Authorization", Constants.Authorization)
                 .addHeader("Content-SN", sign)
                 .addHeader("Content-TS", String.valueOf(ts))
                 .addHeader("Content-RD", String.valueOf(rd));
@@ -100,7 +98,6 @@ public class HeaderInterceptor implements Interceptor {
             tempStr.append("&ts=").append(ts).append("&rd=").append(rd).append("&body=").append(MD5(bodyString));
         }
 
-        Log.e("sign", tempStr.toString());
         return MD5(tempStr.toString());
     }
 

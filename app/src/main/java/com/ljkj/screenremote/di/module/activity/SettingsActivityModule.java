@@ -1,8 +1,6 @@
 package com.ljkj.screenremote.di.module.activity;
 
 import com.ljkj.screenremote.di.scope.ActivityScope;
-import com.ljkj.screenremote.ui.main.MainContract;
-import com.ljkj.screenremote.ui.main.MainPresenter;
 import com.ljkj.screenremote.ui.settings.SettingsContract;
 import com.ljkj.screenremote.ui.settings.SettingsPresenter;
 
@@ -11,12 +9,12 @@ import dagger.Module;
 
 /**
  * 作者: fzy
- * 日期: 2024/9/6
+ * 日期: 2024/9/19
  * 描述:
  */
 @Module
-public abstract class MainActivityModule {
+public abstract class SettingsActivityModule {
     @ActivityScope
     @Binds
-    abstract MainContract.MainActivityPresenter bindPresenter(MainPresenter presenter);
+    abstract SettingsContract.SettingsPresenter bindPresenter(SettingsPresenter presenter);
 }

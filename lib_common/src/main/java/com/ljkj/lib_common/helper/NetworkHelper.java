@@ -1,9 +1,8 @@
 package com.ljkj.lib_common.helper;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.ljkj.lib_common.common.CommonConstants;
+import com.ljkj.lib_common.common.Constants;
 import com.ljkj.lib_common.http.api.ApiService;
 import com.ljkj.lib_common.http.interceptor.CacheInterceptor;
 import com.ljkj.lib_common.http.interceptor.CookieInterceptor;
@@ -18,7 +17,6 @@ import javax.inject.Inject;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -43,7 +41,7 @@ public class NetworkHelper {
 
     private Retrofit createRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl(CommonConstants.BASE_URL)
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(getOkHttpClient())

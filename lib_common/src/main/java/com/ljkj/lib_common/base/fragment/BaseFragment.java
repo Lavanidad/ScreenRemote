@@ -21,7 +21,7 @@ import dagger.android.support.AndroidSupportInjection;
  * 作者: fzy
  * 日期: 2024/9/6
  */
-public abstract class BaseFragment<P extends AbstractBasePresenter<BaseView>, VB extends ViewBinding> extends AbstractBaseFragment<VB> implements BaseView {
+public abstract class BaseFragment<P extends AbstractBasePresenter, VB extends ViewBinding> extends AbstractBaseFragment<VB> implements BaseView {
 
     @Inject
     protected P mPresenter;
@@ -60,7 +60,9 @@ public abstract class BaseFragment<P extends AbstractBasePresenter<BaseView>, VB
         if (mPresenter != null) {
             mPresenter.detachView();
         }
-        binding = null;
+        if (binding != null) {
+            binding = null;
+        }
     }
 
 
@@ -81,4 +83,39 @@ public abstract class BaseFragment<P extends AbstractBasePresenter<BaseView>, VB
     @Override
     protected abstract VB getViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container);
 
+
+    @Override
+    public void showNormal() {
+
+    }
+
+    @Override
+    public void showError() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void showErrorMsg(String errorMsg) {
+
+    }
+
+    @Override
+    public void showLoginView() {
+
+    }
+
+    @Override
+    public void showLogoutView() {
+
+    }
+
+    @Override
+    public void pageReload() {
+
+    }
 }

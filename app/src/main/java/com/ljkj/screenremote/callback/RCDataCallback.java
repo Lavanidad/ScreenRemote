@@ -7,7 +7,11 @@ import com.ljkj.screenremote.bean.SerialDataBean;
  * 日期: 2024/9/11
  * 描述:
  */
-public interface RCSerialDataCallback {
+public interface RCDataCallback {
+    //串口数据
     void onSerialDataParsed(SerialDataBean data);
+
+    //信号强度
+    void onSignalQualityData(int signalQuality);
 }
 

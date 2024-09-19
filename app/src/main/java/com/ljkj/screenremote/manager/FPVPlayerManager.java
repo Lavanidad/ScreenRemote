@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.blankj.utilcode.util.SizeUtils;
 import com.skydroid.fpvplayer.FPVWidget;
 import com.skydroid.fpvplayer.LiveStreamHelper;
@@ -75,39 +77,45 @@ public class FPVPlayerManager {
     /**
      * 交换地图 Or 地图画面
      */
-    public void switchVideoMap(FrameLayout switchVideoMapLayout, View mapWidget) {
-        if (isFullVideo) {
-            FrameLayout.LayoutParams fpvLayoutParams = (FrameLayout.LayoutParams) fpvWidget.getLayoutParams();
-            fpvLayoutParams.width = SizeUtils.dp2px(240);
-            fpvLayoutParams.height = SizeUtils.dp2px(135);
-            fpvLayoutParams.gravity = Gravity.BOTTOM | Gravity.START;
-            fpvWidget.setLayoutParams(fpvLayoutParams);
-
-            FrameLayout.LayoutParams mapLayoutParams = (FrameLayout.LayoutParams) mapWidget.getLayoutParams();
+    public void switchVideoMap(View mapWidget) {
+        if (fpvWidget.getLayoutParams().width == ViewGroup.LayoutParams.MATCH_PARENT) {
+            //map
+            ConstraintLayout.LayoutParams mapLayoutParams = (ConstraintLayout.LayoutParams) mapWidget.getLayoutParams();
             mapLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
             mapLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
             mapWidget.setLayoutParams(mapLayoutParams);
+            mapWidget.setTranslationZ(-1f);
 
-            switchVideoMapLayout.removeView(fpvWidget);
-            switchVideoMapLayout.addView(fpvWidget);
-            isFullVideo = false;
+            //fpv
+            ConstraintLayout.LayoutParams fpvLayoutParams = new ConstraintLayout.LayoutParams(
+                    SizeUtils.dp2px(178), SizeUtils.dp2px(118));
+            fpvLayoutParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+            fpvLayoutParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+            fpvLayoutParams.leftMargin = SizeUtils.dp2px(12);
+            fpvLayoutParams.bottomMargin = SizeUtils.dp2px(15);
+            fpvWidget.setLayoutParams(fpvLayoutParams);
+            fpvWidget.bringToFront();
         } else {
-            FrameLayout.LayoutParams fpvLayoutParams = (FrameLayout.LayoutParams) fpvWidget.getLayoutParams();
-            fpvLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            fpvLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            //fpv
+            ConstraintLayout.LayoutParams fpvLayoutParams = new ConstraintLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            fpvLayoutParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+            fpvLayoutParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
             fpvWidget.setLayoutParams(fpvLayoutParams);
 
-            FrameLayout.LayoutParams mapLayoutParams = (FrameLayout.LayoutParams) mapWidget.getLayoutParams();
-            mapLayoutParams.width = SizeUtils.dp2px(240);
-            mapLayoutParams.height = SizeUtils.dp2px(135);
-            mapLayoutParams.gravity = Gravity.BOTTOM | Gravity.START;
+            // map
+            ConstraintLayout.LayoutParams mapLayoutParams = new ConstraintLayout.LayoutParams(
+                    SizeUtils.dp2px(178), SizeUtils.dp2px(118));
+            mapLayoutParams.leftToLeft = ConstraintLayout.LayoutParams.PARENT_ID;
+            mapLayoutParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
+            mapLayoutParams.leftMargin = SizeUtils.dp2px(12);
+            mapLayoutParams.bottomMargin = SizeUtils.dp2px(15);
             mapWidget.setLayoutParams(mapLayoutParams);
-
-            switchVideoMapLayout.removeView(mapWidget);
-            switchVideoMapLayout.addView(mapWidget);
-            isFullVideo = true;
+            mapWidget.setTranslationZ(0f);
+            mapWidget.bringToFront();
         }
     }
+
 
     /**
      * 回收

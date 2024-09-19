@@ -83,7 +83,7 @@ public class MapManager {
         aMap.animateCamera(CameraUpdateFactory.newCameraPosition(
                 new CameraPosition(cameraPosition.target, cameraPosition.zoom, cameraPosition.tilt, bearing)
         ));
-        Log.i(TAG, "Camera position set to: " + cameraPosition.target.latitude + ", " + cameraPosition.target.longitude);
+//        Log.i(TAG, "Camera position set to: " + cameraPosition.target.latitude + ", " + cameraPosition.target.longitude);
 
         // 监控地图转的角度
         aMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
@@ -99,7 +99,7 @@ public class MapManager {
 
             @Override
             public void onCameraChangeFinish(CameraPosition cameraPosition) {
-                Log.d(TAG, "Camera change finished at: " + cameraPosition.target.latitude + ", " + cameraPosition.target.longitude);
+//                Log.d(TAG, "Camera change finished at: " + cameraPosition.target.latitude + ", " + cameraPosition.target.longitude);
             }
         });
     }
@@ -291,12 +291,14 @@ public class MapManager {
 
 
     // 定位到目标位置
-    public void moveTo(Context context, LatLng latlng) {
-        aMap.moveCamera(CameraUpdateFactory.changeLatLng(latlng));
+    public void moveTo(LatLng latlng) {
+        aMap.moveCamera(CameraUpdateFactory.newCameraPosition(
+                new CameraPosition(latlng, 15f, 0f, 0f)
+        ));
     }
 
     // 定位到目标位置, 设置偏航角
-    public void moveTo(Context context, LatLng latlng, float angle) {
+    public void moveTo(LatLng latlng, float angle) {
         aMap.moveCamera(CameraUpdateFactory.newCameraPosition(
                 new CameraPosition(latlng, 21f, 0f, angle)
         ));
@@ -323,7 +325,7 @@ public class MapManager {
         CameraPosition cameraPosition = aMap.getCameraPosition();
         float mapZoom = cameraPosition.zoom;
         LatLng mapTarget = cameraPosition.target;
-        Log.d(TAG, "onClick: large " + cameraPosition.target.latitude + ":" + mapZoom);
+//        Log.d(TAG, "onClick: large " + cameraPosition.target.latitude + ":" + mapZoom);
         scaleLargeMap(mapTarget, ++mapZoom);
     }
 
@@ -331,7 +333,7 @@ public class MapManager {
         CameraPosition cameraPosition = aMap.getCameraPosition();
         float mapZoom = cameraPosition.zoom;
         LatLng mapTarget = cameraPosition.target;
-        Log.d(TAG, "onClick: small " + cameraPosition.target.latitude + ":" + mapZoom);
+//        Log.d(TAG, "onClick: small " + cameraPosition.target.latitude + ":" + mapZoom);
         scaleLargeMap(mapTarget, --mapZoom);
     }
 

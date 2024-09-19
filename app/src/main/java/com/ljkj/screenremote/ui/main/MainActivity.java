@@ -5,24 +5,29 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.MapsInitializer;
+import com.amap.api.maps.model.LatLng;
+import com.blankj.utilcode.util.ClickUtils;
 import com.ljkj.lib_common.base.activity.BaseActivity;
 import com.ljkj.lib_common.bean.SharingPathListBean;
+import com.ljkj.lib_common.common.Constants;
 import com.ljkj.lib_common.http.api.ApiResponse;
 import com.ljkj.lib_common.receiver.BatteryLevelReceiver;
-import com.ljkj.lib_common.utils.PermissionUtils;
 
 import com.ljkj.screenremote.R;
+import com.ljkj.screenremote.bean.SerialDataBean;
+import com.ljkj.screenremote.callback.RCDataCallback;
 import com.ljkj.screenremote.databinding.ActivityMainBinding;
 import com.ljkj.screenremote.manager.ControllerManager;
 import com.ljkj.screenremote.manager.FPVPlayerManager;
 import com.ljkj.screenremote.manager.MapManager;
-import com.skydroid.fpvplayer.FPVWidget;
+import com.ljkj.screenremote.ui.settings.SettingsActivity;
 
 
 public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBinding> implements MainContract.MainView {
@@ -38,24 +43,23 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
 
     private BatteryLevelReceiver batteryReceiver;
 
-    private String streamUrl = "rtsp://192.168.144.108:554/stream=0";
 
+    double lat = 32.81275597;
+    double lnt = 118.7267046;
 
     @Override
     protected ActivityMainBinding getBinding() {
         return ActivityMainBinding.inflate(getLayoutInflater());
     }
 
+
     @Override
     protected void initView() {
-        super.initView();
         binding = getBinding();
-        PermissionUtils.requestPermissions(this);
-
         controllerManager = ControllerManager.getInstance(this);
 //        controllerManager.init();
 
-//        fpvPlayerManager = FPVPlayerManager.getInstance(binding.fpvWidget, streamUrl);
+        fpvPlayerManager = FPVPlayerManager.getInstance(binding.fpvWidget, Constants.RTSP);
     }
 
     @Override
@@ -77,27 +81,51 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
 
     @Override
     protected void initData() {
-        super.initData();
-
         registerBroadcast(batteryReceiver);
 
-
-
-        double lat = 32.81275597;
-        double lnt = 118.7267046;
 
         mPresenter.sendPost2(0 + "", 50 + "", lat + "", lnt + "", -1);
     }
 
     @Override
     protected void initListener() {
-        controllerManager.setRcSerialDataCallback(data -> {
+        controllerManager.setRcSerialDataCallback(new RCDataCallback() {
+            @Override
+            public void onSerialDataParsed(SerialDataBean data) {
 
+            }
+
+            @Override
+            public void onSignalQualityData(int signalQuality) {
+                binding.tvSignal.setText("signalQuality");
+                Log.e(TAG, "setText signal");
+            }
         });
 
         batteryReceiver = new BatteryLevelReceiver(percent -> {
-
+            binding.tvBattery.setText(percent);
+            Log.e(TAG, "setText tvBattery");
         });
+
+
+        binding.ivSwitch.setOnClickListener(v -> fpvPlayerManager.switchVideoMap(mapView));
+
+        binding.ivLocation.setOnClickListener(v -> mapManager.moveTo(mapManager.converLatlng(MainActivity.this, new LatLng(lat, lnt))));
+
+        binding.ivScaleBig.setOnClickListener(v -> mapManager.scaleLarge());
+
+        binding.ivScaleSmall.setOnClickListener(v -> mapManager.scaleSmall());
+
+        binding.ivSetting.setOnClickListener(new ClickUtils.OnDebouncingClickListener() {
+            @Override
+            public void onDebouncingClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.ivPing.setOnClickListener(v -> controllerManager.requestPairing());
+
     }
 
     /**

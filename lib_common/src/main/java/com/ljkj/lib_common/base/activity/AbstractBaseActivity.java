@@ -3,10 +3,11 @@ package com.ljkj.lib_common.base.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewbinding.ViewBinding;
 
 
-public abstract class AbstractBaseActivity<T extends ViewBinding> extends Activity {
+public abstract class AbstractBaseActivity<T extends ViewBinding> extends AppCompatActivity {
 
     protected AbstractBaseActivity mContext;
 

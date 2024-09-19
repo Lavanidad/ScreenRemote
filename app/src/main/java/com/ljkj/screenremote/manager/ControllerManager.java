@@ -3,9 +3,7 @@ package com.ljkj.screenremote.manager;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.ljkj.screenremote.callback.RCSerialDataCallback;
+import com.ljkj.screenremote.callback.RCDataCallback;
 import com.ljkj.screenremote.helper.ReadRCButtonHelper;
 import com.ljkj.screenremote.utils.ByteUtils;
 import com.ljkj.screenremote.helper.SerialDataParserHelper;
@@ -65,7 +63,8 @@ public class ControllerManager {
     private boolean isReadingByte = true;
     private ByteBuffer remainBuffer;
     private ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private RCSerialDataCallback rcSerialDataCallback;
+    private RCDataCallback rcSerialDataCallback;
+    private RCDataCallback rcSignalQualityCallback;
 
     private ReadRCButtonHelper readRCButtonHelper;
     private ButtonHelper customButtonHelper;
@@ -85,10 +84,16 @@ public class ControllerManager {
     /**
      * @param callback 串口数据读取回调
      */
-    public void setRcSerialDataCallback(RCSerialDataCallback callback) {
+    public void setRcSerialDataCallback(RCDataCallback callback) {
         this.rcSerialDataCallback = callback;
     }
 
+    /**
+     * @param callback 信号强度
+     */
+    public void setRcSignalQualityCallback(RCDataCallback callback) {
+        this.rcSignalQualityCallback = callback;
+    }
 
     /**
      * 初始化，连接遥控器
@@ -190,13 +195,18 @@ public class ControllerManager {
     /**
      * 获取信号强度
      */
-    public void getSignalQuality() {
+    private void getSignalQuality() {
         KeyManager.INSTANCE.cancelListen(keySignalQualityListener);
         //H12Pro/H16/H30/H20的信号强度为LISTEN方式,设置监听器后，会一直回调，直到取消监听
         KeyManager.INSTANCE.listen(AirLinkKey.INSTANCE.getKeySignalQuality(), keySignalQualityListener);
     }
 
-    private final KeyListener<Integer> keySignalQualityListener = (oldValue, newValue) -> Log.e(TAG, "信号强度:" + newValue);
+    private final KeyListener<Integer> keySignalQualityListener = (oldValue, newValue) -> {
+        if (rcSignalQualityCallback != null) {
+            rcSignalQualityCallback.onSignalQualityData(newValue);
+        }
+        Log.d(TAG, "信号强度:" + newValue);
+    };
 
 
     /**
