@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
  * 日期: 2024/9/10
  * 描述:
  */
-public class ApiResponse <T>{
+public class BaseResponse<T>{
 
     private int err_code;
     private String err_msg;

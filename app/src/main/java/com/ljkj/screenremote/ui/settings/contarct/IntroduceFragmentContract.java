@@ -8,12 +8,12 @@ import com.ljkj.lib_common.base.presenter.AbstractBasePresenter;
  * 日期: 2024/9/19
  * 描述:
  */
-public interface LanguageFragmentContract {
-    interface LanguageFragmentView extends BaseView {
+public interface IntroduceFragmentContract {
+    interface IntroduceFragmentView extends BaseView {
 
     }
 
-    interface LanguagePresenter extends AbstractBasePresenter<LanguageFragmentContract.LanguageFragmentView> {
+    interface IntroducePresenter extends AbstractBasePresenter<IntroduceFragmentContract.IntroduceFragmentView> {
 
     }
 }

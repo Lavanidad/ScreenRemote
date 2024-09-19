@@ -5,7 +5,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.ljkj.lib_common.base.activity.BaseActivity;
 import com.ljkj.screenremote.R;
 import com.ljkj.screenremote.databinding.ActivitySettingBinding;
+import com.ljkj.screenremote.ui.settings.fragment.IntroduceFragment;
 import com.ljkj.screenremote.ui.settings.fragment.LanguageFragment;
+import com.ljkj.screenremote.ui.settings.fragment.LogFragment;
 
 /**
  * 作者: fzy
@@ -17,10 +19,10 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter, ActivitySe
     private final String TAG = SettingsActivity.class.getSimpleName();
 
     private LanguageFragment languageFragment;
-//    private FragmentLog fragmentLog;
+    private LogFragment logFragment;
 //    private FragmentOperation fragmentOperation;
 //    private FragmentUpgrade fragmentUpgrade;
-//    private FragmentProduce fragmentProduce;
+    private IntroduceFragment introduceFragment;
 
     @Override
     protected ActivitySettingBinding getBinding() {
@@ -46,13 +48,16 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter, ActivitySe
             if (checkedId == R.id.rb_language) {
                 initFragmentLanguage();
             }
-//            else if (checkedId == R.id.rb_log) {
-//                initFragmentLog();
-//            } else if (checkedId == R.id.rb_upgrade) {
+            else if (checkedId == R.id.rb_log) {
+                initFragmentLog();
+            }
+//            else if (checkedId == R.id.rb_upgrade) {
 //                initFragmentUpgrade();
-//            } else if (checkedId == R.id.rb_produce) {
-//                initFragmentProduce();
-//            } else if (checkedId == R.id.rb_operation) {
+//            }
+            else if (checkedId == R.id.rb_produce) {
+                initFragmentIntroduce();
+            }
+//            else if (checkedId == R.id.rb_operation) {
 //                initFragmentOperation();
 //            }
         });
@@ -65,21 +70,21 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter, ActivitySe
             languageFragment = new LanguageFragment();
             transaction.add(R.id.framelayout_right, languageFragment);
         }
-//        if (fragmentLog == null) {
-//            fragmentLog = new FragmentLog();
-//            transaction.add(R.id.framelayout_right, fragmentLog);
-//        }
-//        if (fragmentOperation == null) {
-//            fragmentOperation = new FragmentOperation();
-//            transaction.add(R.id.framelayout_right, fragmentOperation);
-//        }
+        if (logFragment == null) {
+            logFragment = new LogFragment();
+            transaction.add(R.id.framelayout_right, logFragment);
+        }
+        if (introduceFragment == null) {
+            introduceFragment = new IntroduceFragment();
+            transaction.add(R.id.framelayout_right, introduceFragment);
+        }
 //        if (fragmentUpgrade == null) {
 //            fragmentUpgrade = new FragmentUpgrade();
 //            transaction.add(R.id.framelayout_right, fragmentUpgrade);
 //        }
-//        if (fragmentProduce == null) {
-//            fragmentProduce = new FragmentProduce();
-//            transaction.add(R.id.framelayout_right, fragmentProduce);
+        //        if (fragmentOperation == null) {
+//            fragmentOperation = new FragmentOperation();
+//            transaction.add(R.id.framelayout_right, fragmentOperation);
 //        }
 
         hideFragment(transaction);
@@ -95,12 +100,12 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter, ActivitySe
         transaction.commit();
     }
 
-//    private void initFragmentLog() {
-//        androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        hideFragment(transaction);
-//        transaction.show(fragmentLog);
-//        transaction.commit();
-//    }
+    private void initFragmentLog() {
+        androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        hideFragment(transaction);
+        transaction.show(logFragment);
+        transaction.commit();
+    }
 //
 //    private void initFragmentOperation() {
 //        androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -116,26 +121,26 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter, ActivitySe
 //        transaction.commit();
 //    }
 //
-//    private void initFragmentProduce() {
-//        androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        hideFragment(transaction);
-//        transaction.show(fragmentProduce);
-//        transaction.commit();
-//    }
+    private void initFragmentIntroduce() {
+        androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        hideFragment(transaction);
+        transaction.show(introduceFragment);
+        transaction.commit();
+    }
 
     private void hideFragment(FragmentTransaction transaction) {
         if (languageFragment != null) {
             transaction.hide(languageFragment);
         }
-//        if (fragmentLog != null) {
-//            transaction.hide(fragmentLog);
-//        }
+        if (logFragment != null) {
+            transaction.hide(logFragment);
+        }
 //        if (fragmentOperation != null) {
 //            transaction.hide(fragmentOperation);
 //        }
-//        if (fragmentProduce != null) {
-//            transaction.hide(fragmentProduce);
-//        }
+        if (introduceFragment != null) {
+            transaction.hide(introduceFragment);
+        }
 //        if (fragmentUpgrade != null) {
 //            transaction.hide(fragmentUpgrade);
 //        }

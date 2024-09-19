@@ -5,7 +5,7 @@ import android.content.Context;
 import com.ljkj.lib_common.base.BaseView;
 import com.ljkj.lib_common.base.presenter.AbstractBasePresenter;
 import com.ljkj.lib_common.bean.SharingPathListBean;
-import com.ljkj.lib_common.http.api.ApiResponse;
+import com.ljkj.lib_common.http.api.BaseResponse;
 
 /**
  * 作者: fzy
@@ -19,7 +19,7 @@ public interface MainContract {
 
         void showGet(String msg);
 
-        void showPost2(ApiResponse<SharingPathListBean> bean);
+        void showPost2(BaseResponse<SharingPathListBean> bean);
     }
 
     interface MainActivityPresenter extends AbstractBasePresenter<MainView> {

@@ -3,7 +3,6 @@ package com.ljkj.lib_common.rx;
 
 import android.content.Context;
 
-
 import com.trello.rxlifecycle4.android.ActivityEvent;
 import com.trello.rxlifecycle4.components.RxActivity;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;

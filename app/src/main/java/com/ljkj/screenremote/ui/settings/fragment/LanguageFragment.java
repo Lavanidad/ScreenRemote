@@ -26,7 +26,7 @@ import com.ljkj.screenremote.ui.settings.presenter.LanguageFragmentPresenter;
  * 日期: 2024/9/19
  * 描述:
  */
-public class LanguageFragment extends BaseFragment<LanguageFragmentPresenter, FragmentLanguageBinding> implements LanguageFragmentContract.LanguageView {
+public class LanguageFragment extends BaseFragment<LanguageFragmentPresenter, FragmentLanguageBinding> implements LanguageFragmentContract.LanguageFragmentView {
 
     public static final String TAG = LanguageFragment.class.getSimpleName();
 

@@ -21,8 +21,12 @@ public class Constants {
 
     public static final String RTSP = "rtsp://192.168.144.108:554/stream=0";
 
+    public static final String SN = "";
+
 
     public static final String SP_KEY_LANGUAGE = "KEY_LANGUAGE";
     public static final String SP_DEFAULT_LANGUAGE = "FS";
+
+
 }
 

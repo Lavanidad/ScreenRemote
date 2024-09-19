@@ -18,7 +18,6 @@ constraintlayout = "2.1.4"
 okhttp = "4.10.0"
 rxjava = "3.1.5"
 retrofit = "2.9.0"
-butterknife = "10.2.3"
 dagger = "2.45"
 rxandroid = "3.0.0"
 utilcode = "1.31.1"
@@ -26,6 +25,7 @@ rxlifecycler = "4.0.2"
 okio = "3.0.0"
 toaster = "12.6"
 xxpermissions = "20.0"
+baseRecyclerViewAdapterHelper = "3.0.14"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -60,6 +60,7 @@ rxlifecycler = { module = "com.trello.rxlifecycle4:rxlifecycle", version.ref = "
 rxlifecycler-android = { module = "com.trello.rxlifecycle4:rxlifecycle-android", version.ref = "rxlifecycler" }
 rxlifecycler-compnents = { module = "com.trello.rxlifecycle4:rxlifecycle-components", version.ref = "rxlifecycler" }
 
+baseRecyclerViewAdapterHelper = { module = "io.github.cymchad:BaseRecyclerViewAdapterHelper", version.ref = "baseRecyclerViewAdapterHelper" }
 [bundles]
 #dagger = ["dagger-android", "dagger-compiler", "dagger-android-support", "dagger-android-processor"]
 
