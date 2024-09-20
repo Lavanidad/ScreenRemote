@@ -11,7 +11,7 @@ import javax.inject.Inject;
  * 日期: 2024/9/19
  * 描述:
  */
-public class LanguageFragmentPresenter extends BaseRxPresenter<LanguageFragmentContract.LanguageFragmentView> implements LanguageFragmentContract.LanguagePresenter {
+public class LanguageFragmentPresenter extends BaseRxPresenter<LanguageFragmentContract.LanguageView> implements LanguageFragmentContract.LanguagePresenter {
 
     public static final String TAG = LanguageFragmentPresenter.class.getSimpleName();
 
@@ -23,7 +23,7 @@ public class LanguageFragmentPresenter extends BaseRxPresenter<LanguageFragmentC
     }
 
     @Override
-    public void attachView(LanguageFragmentContract.LanguageFragmentView view) {
+    public void attachView(LanguageFragmentContract.LanguageView view) {
         super.attachView(view);
     }
 }

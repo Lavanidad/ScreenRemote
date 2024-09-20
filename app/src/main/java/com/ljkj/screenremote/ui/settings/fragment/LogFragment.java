@@ -13,14 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ClickUtils;
 import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.JsonUtils;
 import com.hjq.toast.Toaster;
 import com.ljkj.lib_common.base.fragment.BaseFragment;
 import com.ljkj.lib_common.bean.LogBean;
 import com.ljkj.lib_common.bean.LogListBean;
 import com.ljkj.lib_common.common.Constants;
 import com.ljkj.lib_common.http.api.BaseResponse;
-import com.ljkj.lib_common.rx.RxSchedulers;
 import com.ljkj.lib_common.utils.FileUtils;
 import com.ljkj.screenremote.adapter.LogListAdapter;
 import com.ljkj.screenremote.databinding.FragmentLogBinding;
@@ -36,7 +34,6 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Scheduler;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -46,7 +43,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * 日期: 2024/9/19
  * 描述:
  */
-public class LogFragment extends BaseFragment<LogFragmentPresenter, FragmentLogBinding> implements LogFragmentContract.LogFragmentView {
+public class LogFragment extends BaseFragment<LogFragmentPresenter, FragmentLogBinding> implements LogFragmentContract.LogView {
 
     public static final String TAG = LogFragment.class.getSimpleName();
 
@@ -85,11 +82,11 @@ public class LogFragment extends BaseFragment<LogFragmentPresenter, FragmentLogB
 
     @Override
     protected void initData() {
-        createTestFile(ft.CAN_LOG_FILE_PATH, "can");
-        createTestFile(ft.WORK_LOG_FILE_PATH, "work");
-        createTestFile(ft.NAV_LOG_FILE_PATH, "nav");
-        createTestFile(ft.CRASH_LOG_FILE_PATH, "crash");
-        createTestFile(ft.OTHER_LOG_FILE_PATH, "other");
+//        createTestFile(ft.CAN_LOG_FILE_PATH, "can");
+//        createTestFile(ft.WORK_LOG_FILE_PATH, "work");
+//        createTestFile(ft.NAV_LOG_FILE_PATH, "nav");
+//        createTestFile(ft.CRASH_LOG_FILE_PATH, "crash");
+//        createTestFile(ft.OTHER_LOG_FILE_PATH, "other");
     }
 
     public void createTestFile(String path, String type) {
@@ -224,19 +221,19 @@ public class LogFragment extends BaseFragment<LogFragmentPresenter, FragmentLogB
     }
 
     private void loadLogFiles() {
-        logListCan.addAll(ft.getSonNode(new File(ft.CAN_LOG_FILE_PATH), 1));
+        logListCan.addAll(ft.getSonNode(new File(Constants.CAN_LOG_FILE_PATH), 1));
         adapterCan.setList(logListCan);
 
-        logListOperate.addAll(ft.getSonNode(new File(ft.WORK_LOG_FILE_PATH), 2));
+        logListOperate.addAll(ft.getSonNode(new File(Constants.WORK_LOG_FILE_PATH), 2));
         adapterOperate.setList(logListOperate);
 
-        logListNav.addAll(ft.getSonNode(new File(ft.NAV_LOG_FILE_PATH), 3));
+        logListNav.addAll(ft.getSonNode(new File(Constants.NAV_LOG_FILE_PATH), 3));
         adapterNav.setList(logListNav);
 
-        logListCrash.addAll(ft.getSonNode(new File(ft.CRASH_LOG_FILE_PATH), 4));
+        logListCrash.addAll(ft.getSonNode(new File(Constants.CRASH_LOG_FILE_PATH), 4));
         adapterCrash.setList(logListCrash);
 
-        logListOther.addAll(ft.getSonNode(new File(ft.OTHER_LOG_FILE_PATH), 5));
+        logListOther.addAll(ft.getSonNode(new File(Constants.OTHER_LOG_FILE_PATH), 5));
         adapterOther.setList(logListOther);
     }
 

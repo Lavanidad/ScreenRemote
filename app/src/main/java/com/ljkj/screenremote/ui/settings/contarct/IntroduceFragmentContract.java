@@ -9,11 +9,11 @@ import com.ljkj.lib_common.base.presenter.AbstractBasePresenter;
  * 描述:
  */
 public interface IntroduceFragmentContract {
-    interface IntroduceFragmentView extends BaseView {
+    interface IntroduceView extends BaseView {
 
     }
 
-    interface IntroducePresenter extends AbstractBasePresenter<IntroduceFragmentContract.IntroduceFragmentView> {
+    interface IntroducePresenter extends AbstractBasePresenter<IntroduceView> {
 
     }
 }

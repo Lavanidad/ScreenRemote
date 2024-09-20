@@ -2,8 +2,8 @@ package com.ljkj.screenremote.di.module;
 
 import android.content.Context;
 
-import com.ljkj.lib_common.helper.HttpHelper;
-import com.ljkj.lib_common.helper.NetworkHelper;
+import com.ljkj.lib_common.http.HttpHelper;
+import com.ljkj.lib_common.http.NetworkHelper;
 import com.ljkj.lib_common.http.HttpClient;
 
 import javax.inject.Singleton;

@@ -1,7 +1,6 @@
 package com.ljkj.screenremote.ui.settings.contarct;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.ljkj.lib_common.base.BaseView;
 import com.ljkj.lib_common.base.presenter.AbstractBasePresenter;
@@ -16,13 +15,13 @@ import java.io.File;
  * 描述:
  */
 public interface LogFragmentContract {
-    interface LogFragmentView extends BaseView {
+    interface LogView extends BaseView {
         void showUpLoadSuccess(BaseResponse<LogBean> response);
 
         void showUpLoadFailed(BaseResponse<LogBean> response);
     }
 
-    interface LogPresenter extends AbstractBasePresenter<LogFragmentContract.LogFragmentView> {
+    interface LogPresenter extends AbstractBasePresenter<LogView> {
         void uploadLog(Context context, String sn, String logType, File file, String fileName, String jsonString);
     }
 }

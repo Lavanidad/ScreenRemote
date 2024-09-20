@@ -2,8 +2,8 @@
 compileSdk = "34"
 targetSdk = "34"
 minSdk = "24"
-versionCode = "1"
-versionName = "1.0"
+versionCode = "001"
+versionName = "0.0.1"
 
 agp = "8.5.1"
 junit = "4.13.2"

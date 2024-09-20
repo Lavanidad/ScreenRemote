@@ -1,4 +1,4 @@
-package com.ljkj.lib_common.receiver;
+package com.ljkj.lib_common.boot;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

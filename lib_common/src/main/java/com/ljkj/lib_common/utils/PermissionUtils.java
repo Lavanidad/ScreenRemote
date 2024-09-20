@@ -30,6 +30,14 @@ public class PermissionUtils {
             Manifest.permission.READ_PHONE_STATE
     };
 
+    // 安装权限列表
+    public static final String[] REQUIRED_PERMISSIONS_UPDATE = {
+            Manifest.permission.INTERNET,                     // 访问互联网
+            Manifest.permission.ACCESS_NETWORK_STATE,         // 检查网络状态
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,       // 写入外部存储 (Android 10 及以下)
+            Manifest.permission.REQUEST_INSTALL_PACKAGES
+    };
+
     public static void requestPermissions(Context context) {
         XXPermissions.with(context)
                 .permission(REQUIRED_PERMISSIONS)

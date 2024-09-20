@@ -42,9 +42,9 @@ public class RxExceptions {
     private static String convertStatusCode(HttpException httpException) {
         String msg;
         if (httpException.code() >= 500 && httpException.code() < 600) {
-            msg = "服务器处理请求错误";
+            msg = "服务器处理请求错误," + httpException.code();
         } else if (httpException.code() >= 400 && httpException.code() < 500) {
-            msg = "服务器无法处理请求";
+            msg = "服务器无法处理请求," + httpException.code();
         } else {
             msg = httpException.message();
         }

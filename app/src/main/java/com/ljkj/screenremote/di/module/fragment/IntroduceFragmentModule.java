@@ -2,7 +2,7 @@ package com.ljkj.screenremote.di.module.fragment;
 
 import com.ljkj.screenremote.di.scope.FragmentScope;
 import com.ljkj.screenremote.ui.settings.contarct.IntroduceFragmentContract;
-import com.ljkj.screenremote.ui.settings.presenter.IntroducePresenter;
+import com.ljkj.screenremote.ui.settings.presenter.IntroduceFragmentPresenter;
 
 import dagger.Binds;
 import dagger.Module;
@@ -13,8 +13,8 @@ import dagger.Module;
  * 描述:
  */
 @Module
-public abstract class IntroduceModule {
+public abstract class IntroduceFragmentModule {
     @FragmentScope
     @Binds
-    abstract IntroduceFragmentContract.IntroducePresenter bindPresenter(IntroducePresenter presenter);
+    abstract IntroduceFragmentContract.IntroducePresenter bindPresenter(IntroduceFragmentPresenter presenter);
 }

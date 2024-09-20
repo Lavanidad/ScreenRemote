@@ -1,5 +1,6 @@
 package com.ljkj.lib_common.http.api;
 
+import com.ljkj.lib_common.bean.AppVersionBean;
 import com.ljkj.lib_common.bean.LogBean;
 import com.ljkj.lib_common.bean.SharingPathListBean;
 import com.ljkj.lib_common.bean.TestBean;
@@ -60,4 +61,18 @@ public interface ApiService {
             @Part MultipartBody.Part file,
             @Part("file_name") RequestBody fileName
     );
+
+    /**
+     * 查询新版本APP
+     *
+     * @param moduleName H12Pro
+     * @param deviceType remote_control
+     * @return
+     */
+    @GET("v1/ota/info/last")
+    Observable<BaseResponse<AppVersionBean>> checkAppVersion(
+            @Query("module_name") String moduleName,
+            @Query("device_type") String deviceType
+    );
+
 }

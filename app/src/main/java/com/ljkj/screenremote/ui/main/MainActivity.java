@@ -18,7 +18,7 @@ import com.ljkj.lib_common.base.activity.BaseActivity;
 import com.ljkj.lib_common.bean.SharingPathListBean;
 import com.ljkj.lib_common.common.Constants;
 import com.ljkj.lib_common.http.api.BaseResponse;
-import com.ljkj.lib_common.receiver.BatteryLevelReceiver;
+import com.ljkj.lib_common.boot.BatteryLevelReceiver;
 
 import com.ljkj.screenremote.R;
 import com.ljkj.screenremote.bean.SerialDataBean;

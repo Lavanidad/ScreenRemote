@@ -1,9 +1,9 @@
 package com.ljkj.lib_common.http;
 
+import com.ljkj.lib_common.bean.AppVersionBean;
 import com.ljkj.lib_common.bean.LogBean;
 import com.ljkj.lib_common.bean.SharingPathListBean;
 import com.ljkj.lib_common.bean.TestBean;
-import com.ljkj.lib_common.helper.HttpHelper;
 import com.ljkj.lib_common.http.api.BaseResponse;
 
 import java.io.File;
@@ -42,5 +42,9 @@ public class HttpClient {
 
     public Observable<BaseResponse<LogBean>> uploadLog(String sn, String logType, File file, String fileName, String jsonString) {
         return httpHelper.uploadLog(sn, logType, file, fileName, jsonString);
+    }
+
+    public Observable<BaseResponse<AppVersionBean>> checkAppVersion(String moduleName, String deviceType) {
+        return httpHelper.checkAppVersion(moduleName, deviceType);
     }
 }

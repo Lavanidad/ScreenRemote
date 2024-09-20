@@ -3,6 +3,7 @@
     <style name="Base.Theme.ScreenRemote" parent="Theme.Design.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 

@@ -1,12 +1,14 @@
 package com.ljkj.screenremote.di.module;
 
-import com.ljkj.screenremote.di.module.fragment.IntroduceModule;
+import com.ljkj.screenremote.di.module.fragment.IntroduceFragmentModule;
 import com.ljkj.screenremote.di.module.fragment.LanguageFragmentModule;
 import com.ljkj.screenremote.di.module.fragment.LogFragmentModule;
+import com.ljkj.screenremote.di.module.fragment.UpdateFragmentModule;
 import com.ljkj.screenremote.di.scope.FragmentScope;
 import com.ljkj.screenremote.ui.settings.fragment.IntroduceFragment;
 import com.ljkj.screenremote.ui.settings.fragment.LanguageFragment;
 import com.ljkj.screenremote.ui.settings.fragment.LogFragment;
+import com.ljkj.screenremote.ui.settings.fragment.UpdateFragment;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -28,7 +30,11 @@ public abstract class FragmentBindingModule {
     abstract LogFragment contributeLogFragment();
 
     @FragmentScope
-    @ContributesAndroidInjector(modules = IntroduceModule.class)
+    @ContributesAndroidInjector(modules = IntroduceFragmentModule.class)
     abstract IntroduceFragment contributeIntroduceFragment();
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = UpdateFragmentModule.class)
+    abstract UpdateFragment contributeUpdateFragment();
 
 }

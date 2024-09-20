@@ -11,19 +11,19 @@ import javax.inject.Inject;
  * 日期: 2024/9/19
  * 描述:
  */
-public class IntroducePresenter extends BaseRxPresenter<IntroduceFragmentContract.IntroduceFragmentView> implements IntroduceFragmentContract.IntroducePresenter {
+public class IntroduceFragmentPresenter extends BaseRxPresenter<IntroduceFragmentContract.IntroduceView> implements IntroduceFragmentContract.IntroducePresenter {
 
     public static final String TAG = LanguageFragmentPresenter.class.getSimpleName();
 
     private HttpClient mHttpClient;
 
     @Inject
-    public IntroducePresenter(HttpClient httpClient) {
+    public IntroduceFragmentPresenter(HttpClient httpClient) {
         this.mHttpClient = httpClient;
     }
 
     @Override
-    public void attachView(IntroduceFragmentContract.IntroduceFragmentView view) {
+    public void attachView(IntroduceFragmentContract.IntroduceView view) {
         super.attachView(view);
     }
 }

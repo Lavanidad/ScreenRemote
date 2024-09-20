@@ -17,6 +17,7 @@ import com.blankj.utilcode.util.SPUtils;
 import com.ljkj.lib_common.base.BaseView;
 import com.ljkj.lib_common.base.presenter.AbstractBasePresenter;
 import com.ljkj.lib_common.common.Constants;
+import com.ljkj.lib_common.utils.PermissionUtils;
 
 import java.util.Locale;
 
@@ -59,6 +60,7 @@ public abstract class BaseActivity<P extends AbstractBasePresenter, VB extends V
         if (mPresenter != null) {
             mPresenter.attachView(this);
         }
+        PermissionUtils.requestPermissions(this);
         initView();
         initMapView(savedInstanceState);
     }

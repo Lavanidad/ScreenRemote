@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 指定整个 ljkj_remote 目录为可访问路径 -->
+    <external-path
+        name="ljkj_remote"
+        path="ljkj_remote/" />
+
+    <!-- 也可以单独定义 apk 下载目录 -->
+    <external-path
+        name="apk_download"
+        path="ljkj_remote/download/apk/" />
+</paths>

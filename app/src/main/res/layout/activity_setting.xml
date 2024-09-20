@@ -98,7 +98,7 @@
                     android:background="@color/view_bg" />
 
                 <RadioButton
-                    android:id="@+id/rb_upgrade"
+                    android:id="@+id/rb_update"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginLeft="10dp"

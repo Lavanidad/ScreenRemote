@@ -8,6 +8,7 @@ import com.ljkj.screenremote.databinding.ActivitySettingBinding;
 import com.ljkj.screenremote.ui.settings.fragment.IntroduceFragment;
 import com.ljkj.screenremote.ui.settings.fragment.LanguageFragment;
 import com.ljkj.screenremote.ui.settings.fragment.LogFragment;
+import com.ljkj.screenremote.ui.settings.fragment.UpdateFragment;
 
 /**
  * 作者: fzy
@@ -20,8 +21,7 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter, ActivitySe
 
     private LanguageFragment languageFragment;
     private LogFragment logFragment;
-//    private FragmentOperation fragmentOperation;
-//    private FragmentUpgrade fragmentUpgrade;
+    private UpdateFragment updateFragment;
     private IntroduceFragment introduceFragment;
 
     @Override
@@ -47,19 +47,13 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter, ActivitySe
         binding.rgSetting.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rb_language) {
                 initFragmentLanguage();
-            }
-            else if (checkedId == R.id.rb_log) {
+            } else if (checkedId == R.id.rb_log) {
                 initFragmentLog();
-            }
-//            else if (checkedId == R.id.rb_upgrade) {
-//                initFragmentUpgrade();
-//            }
-            else if (checkedId == R.id.rb_produce) {
+            } else if (checkedId == R.id.rb_update) {
+                initFragmentUpdate();
+            } else if (checkedId == R.id.rb_produce) {
                 initFragmentIntroduce();
             }
-//            else if (checkedId == R.id.rb_operation) {
-//                initFragmentOperation();
-//            }
         });
     }
 
@@ -74,22 +68,17 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter, ActivitySe
             logFragment = new LogFragment();
             transaction.add(R.id.framelayout_right, logFragment);
         }
+        if (updateFragment == null) {
+            updateFragment = new UpdateFragment();
+            transaction.add(R.id.framelayout_right, updateFragment);
+        }
         if (introduceFragment == null) {
             introduceFragment = new IntroduceFragment();
             transaction.add(R.id.framelayout_right, introduceFragment);
         }
-//        if (fragmentUpgrade == null) {
-//            fragmentUpgrade = new FragmentUpgrade();
-//            transaction.add(R.id.framelayout_right, fragmentUpgrade);
-//        }
-        //        if (fragmentOperation == null) {
-//            fragmentOperation = new FragmentOperation();
-//            transaction.add(R.id.framelayout_right, fragmentOperation);
-//        }
 
         hideFragment(transaction);
         transaction.show(languageFragment);
-
         transaction.commit();
     }
 
@@ -106,21 +95,14 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter, ActivitySe
         transaction.show(logFragment);
         transaction.commit();
     }
-//
-//    private void initFragmentOperation() {
-//        androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        hideFragment(transaction);
-//        transaction.show(fragmentOperation);
-//        transaction.commit();
-//    }
-//
-//    private void initFragmentUpgrade() {
-//        androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        hideFragment(transaction);
-//        transaction.show(fragmentUpgrade);
-//        transaction.commit();
-//    }
-//
+
+    private void initFragmentUpdate() {
+        androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        hideFragment(transaction);
+        transaction.show(updateFragment);
+        transaction.commit();
+    }
+
     private void initFragmentIntroduce() {
         androidx.fragment.app.FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideFragment(transaction);
@@ -135,15 +117,12 @@ public class SettingsActivity extends BaseActivity<SettingsPresenter, ActivitySe
         if (logFragment != null) {
             transaction.hide(logFragment);
         }
-//        if (fragmentOperation != null) {
-//            transaction.hide(fragmentOperation);
-//        }
+        if (updateFragment != null) {
+            transaction.hide(updateFragment);
+        }
         if (introduceFragment != null) {
             transaction.hide(introduceFragment);
         }
-//        if (fragmentUpgrade != null) {
-//            transaction.hide(fragmentUpgrade);
-//        }
     }
 
     @Override

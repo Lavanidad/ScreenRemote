@@ -1,8 +1,6 @@
 package com.ljkj.screenremote.ui.settings.fragment;
 
-import android.content.Intent;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +24,7 @@ import com.ljkj.screenremote.ui.settings.presenter.LanguageFragmentPresenter;
  * 日期: 2024/9/19
  * 描述:
  */
-public class LanguageFragment extends BaseFragment<LanguageFragmentPresenter, FragmentLanguageBinding> implements LanguageFragmentContract.LanguageFragmentView {
+public class LanguageFragment extends BaseFragment<LanguageFragmentPresenter, FragmentLanguageBinding> implements LanguageFragmentContract.LanguageView {
 
     public static final String TAG = LanguageFragment.class.getSimpleName();
 

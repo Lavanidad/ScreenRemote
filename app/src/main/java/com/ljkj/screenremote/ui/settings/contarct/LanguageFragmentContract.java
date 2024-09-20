@@ -9,11 +9,11 @@ import com.ljkj.lib_common.base.presenter.AbstractBasePresenter;
  * 描述:
  */
 public interface LanguageFragmentContract {
-    interface LanguageFragmentView extends BaseView {
+    interface LanguageView extends BaseView {
 
     }
 
-    interface LanguagePresenter extends AbstractBasePresenter<LanguageFragmentContract.LanguageFragmentView> {
+    interface LanguagePresenter extends AbstractBasePresenter<LanguageView> {
 
     }
 }

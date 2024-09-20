@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Environment;
 
 import com.ljkj.lib_common.bean.LogListBean;
+import com.ljkj.lib_common.common.Constants;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -34,21 +35,6 @@ public class FileUtils {
     private static FileUtils instance;
     private static Context context;
 
-    // 文件路径常量
-    public String LOCAL_FILE_PATH;
-    public String LOCAL_DOWNLOAD_FILE_PATH;
-    public String CLOUD_DOWNLOAD_FILE_PATH;
-    public String APK_DOWNLOAD_FILE_PATH;
-    public String CAN_LOG_FILE_PATH;
-    public String WORK_LOG_FILE_PATH;
-    public String NAV_LOG_FILE_PATH;
-    public String ZIP_FILE_PATH;
-    public String BLUETOOTH_FILE_PATH;
-    public String LOG_FILE_PATH;
-    public String OTHER_LOG_FILE_PATH;
-    public String CRASH_LOG_FILE_PATH;
-
-    private String MQTT_INFO_FILE_PATH;
 
     // 私有构造函数
     private FileUtils() {
@@ -65,33 +51,20 @@ public class FileUtils {
     // 初始化路径
     public void init(Context mContext) {
         context = mContext;
-        LOCAL_FILE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/ljkj_remote/";
-        LOCAL_DOWNLOAD_FILE_PATH = LOCAL_FILE_PATH + "download/local/";
-        APK_DOWNLOAD_FILE_PATH = LOCAL_FILE_PATH + "download/apk/";
-        CLOUD_DOWNLOAD_FILE_PATH = LOCAL_FILE_PATH + "download/cloud/";
-        CAN_LOG_FILE_PATH = LOCAL_FILE_PATH + "Log/CAN/";
-        WORK_LOG_FILE_PATH = LOCAL_FILE_PATH + "Log/ACTION/";
-        NAV_LOG_FILE_PATH = LOCAL_FILE_PATH + "Log/NAV/";
-        ZIP_FILE_PATH = LOCAL_FILE_PATH + "ZIP/";
-        BLUETOOTH_FILE_PATH = LOCAL_FILE_PATH + "bluetooth/";
-        MQTT_INFO_FILE_PATH = LOCAL_FILE_PATH + "Log/MQTT/";
-        LOG_FILE_PATH = LOCAL_FILE_PATH + "Log";
-        CRASH_LOG_FILE_PATH = LOCAL_FILE_PATH + "Log/CRASH/";
-        OTHER_LOG_FILE_PATH = LOCAL_FILE_PATH + "Log/OTHER/";
 
-        createFileDirs(LOCAL_FILE_PATH);
-        createFileDirs(LOCAL_DOWNLOAD_FILE_PATH);
-        createFileDirs(APK_DOWNLOAD_FILE_PATH);
-        createFileDirs(CLOUD_DOWNLOAD_FILE_PATH);
-        createFileDirs(CAN_LOG_FILE_PATH);
-        createFileDirs(WORK_LOG_FILE_PATH);
-        createFileDirs(NAV_LOG_FILE_PATH);
-        createFileDirs(ZIP_FILE_PATH);
-        createFileDirs(BLUETOOTH_FILE_PATH);
-        createFileDirs(MQTT_INFO_FILE_PATH);
-        createFileDirs(LOG_FILE_PATH);
-        createFileDirs(CRASH_LOG_FILE_PATH);
-        createFileDirs(OTHER_LOG_FILE_PATH);
+        createFileDirs(Constants.LOCAL_FILE_PATH);
+        createFileDirs(Constants.LOCAL_DOWNLOAD_FILE_PATH);
+        createFileDirs(Constants.APK_DOWNLOAD_FILE_PATH);
+        createFileDirs(Constants.CLOUD_DOWNLOAD_FILE_PATH);
+        createFileDirs(Constants.CAN_LOG_FILE_PATH);
+        createFileDirs(Constants.WORK_LOG_FILE_PATH);
+        createFileDirs(Constants.NAV_LOG_FILE_PATH);
+        createFileDirs(Constants.ZIP_FILE_PATH);
+        createFileDirs(Constants.BLUETOOTH_FILE_PATH);
+        createFileDirs(Constants.MQTT_INFO_FILE_PATH);
+        createFileDirs(Constants.LOG_FILE_PATH);
+        createFileDirs(Constants.CRASH_LOG_FILE_PATH);
+        createFileDirs(Constants.OTHER_LOG_FILE_PATH);
     }
 
     // 创建文件夹
@@ -104,7 +77,7 @@ public class FileUtils {
 
     // 创建文件
     public File create(String name) {
-        File file = new File(LOCAL_DOWNLOAD_FILE_PATH + name);
+        File file = new File(Constants.LOCAL_DOWNLOAD_FILE_PATH + name);
         try {
             if (file.exists()) {
                 file.delete();
@@ -116,80 +89,6 @@ public class FileUtils {
         return file;
     }
 
-    public File createIngressCallBack(String name) {
-        return createFile(LOCAL_DOWNLOAD_FILE_PATH, name);
-    }
-
-    // 创建日志文件
-    public File createLogFile(String name) {
-        return createFile(NAV_LOG_FILE_PATH, name);
-    }
-
-    public File createImuLogFile(String name) {
-        return createFile(NAV_LOG_FILE_PATH, name);
-    }
-
-    public File createAPKFile(String name) {
-        return new File(APK_DOWNLOAD_FILE_PATH + name);
-    }
-
-    // 创建CAN通讯日志文件
-    public File createCanLogFile(String name) {
-        return createFile(CAN_LOG_FILE_PATH, name);
-    }
-
-    // 创建工作日志文件
-    public File createWorkLogFile(String name) {
-        return createFile(WORK_LOG_FILE_PATH, name);
-    }
-
-    // 创建MQTT信息日志文件
-    public File createMqttFile(String name) {
-        File file = new File(MQTT_INFO_FILE_PATH + name);
-        try {
-            if (file.exists() && file.length() > (1024 * 1024 * 2048)) {
-                file.delete();
-                file.createNewFile();
-            } else if (!file.exists()) {
-                file.createNewFile();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file;
-    }
-
-    /**
-     * 压缩文件
-     */
-    public static File compress(String compressFilePath, String name, String toLocalPath) throws IOException {
-        File file = new File(compressFilePath);
-        File compressDir = new File(toLocalPath);
-        if (!compressDir.exists()) {
-            compressDir.mkdirs();
-        }
-        String compressName = name.split("\\.")[0] + ".zip";
-        File compressFile = new File(toLocalPath + compressName);
-
-        if (!compressFile.exists()) {
-            try (ZipOutputStream zipOutputStream = new ZipOutputStream(new FileOutputStream(compressFile));
-                 FileInputStream fileInputStream = new FileInputStream(file)) {
-
-                ZipEntry zipEntry = new ZipEntry(name);
-                zipOutputStream.putNextEntry(zipEntry);
-                byte[] buffer = new byte[5000];
-                int len;
-                while ((len = fileInputStream.read(buffer)) != -1) {
-                    zipOutputStream.write(buffer, 0, len);
-                }
-                zipOutputStream.closeEntry();
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw e;
-            }
-        }
-        return compressFile;
-    }
 
     // 获取文件大小
     public static int getFileSize(File file) {
@@ -202,7 +101,7 @@ public class FileUtils {
 
     // 从蓝牙文件夹中获取指定的.csv文件
     public List<File> getFileListFromBluetooth() {
-        File fileDirectory = new File(BLUETOOTH_FILE_PATH);
+        File fileDirectory = new File(Constants.BLUETOOTH_FILE_PATH);
         List<File> listFiles = new ArrayList<>();
         if (fileDirectory.exists()) {
             for (File file : fileDirectory.listFiles()) {
