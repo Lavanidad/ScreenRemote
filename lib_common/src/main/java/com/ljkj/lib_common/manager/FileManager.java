@@ -1,4 +1,4 @@
-package com.ljkj.lib_common.utils;
+package com.ljkj.lib_common.manager;
 
 /**
  * 作者: fzy
@@ -7,10 +7,13 @@ package com.ljkj.lib_common.utils;
  */
 
 import android.content.Context;
-import android.os.Environment;
+import android.util.Log;
 
+import com.hjq.toast.Toaster;
 import com.ljkj.lib_common.bean.LogListBean;
+import com.ljkj.lib_common.bean.PathPointBean;
 import com.ljkj.lib_common.common.Constants;
+import com.ljkj.lib_common.utils.CSVUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -23,6 +26,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import io.reactivex.rxjava3.core.Single;
@@ -30,20 +34,20 @@ import io.reactivex.rxjava3.core.Single;
 /**
  * 本地文件操作工具类
  */
-public class FileUtils {
+public class FileManager {
 
-    private static FileUtils instance;
+    private static FileManager instance;
     private static Context context;
 
 
     // 私有构造函数
-    private FileUtils() {
+    private FileManager() {
     }
 
     // 单例获取实例
-    public static FileUtils getInstance() {
+    public static FileManager getInstance() {
         if (instance == null) {
-            instance = new FileUtils();
+            instance = new FileManager();
         }
         return instance;
     }
@@ -219,5 +223,95 @@ public class FileUtils {
             }
         });
     }
+
+    /**
+     * 解压文件
+     *
+     * @param zipFilePath
+     * @param destDirectory
+     * @return
+     */
+    public static String unzip(String zipFilePath, String destDirectory) {
+        String file_name = "";
+        File destDir = new File(destDirectory);
+        if (!destDir.exists()) {
+            destDir.mkdir();
+        }
+
+        try {
+            ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
+            ZipEntry entry = zipIn.getNextEntry();
+
+            while (entry != null) {
+                file_name = entry.getName();
+                String filePath = destDirectory + File.separator + entry.getName();
+                if (!entry.isDirectory()) {
+                    extractFile(zipIn, filePath);
+                } else {
+                    File dir = new File(filePath);
+                    dir.mkdir();
+                }
+                zipIn.closeEntry();
+                entry = zipIn.getNextEntry();
+            }
+            zipIn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return file_name;
+    }
+
+    private static void extractFile(ZipInputStream zipIn, String filePath) {
+        try {
+            FileOutputStream fos = new FileOutputStream(filePath);
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = zipIn.read(buffer)) != -1) {
+                fos.write(buffer, 0, bytesRead);
+            }
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 加载本地路径
+     */
+    public List<PathPointBean> loadLocalPath() {
+        // 初始化文件工具类
+        FileManager ft = FileManager.getInstance();
+        List<File> files = new ArrayList<>(ft.getFileListFromBluetooth());
+
+        if (files.isEmpty()) {
+            Toaster.show("未查询到本地路径，请先从平板传送");
+            return null;
+        }
+
+        List<PathPointBean> pathList = null;
+
+        for (File file : files) {
+            Log.i("filename", file.getName());
+
+            if (file.getName().contains(".zip")) {
+                String csvFileName = unzip(file.getPath(), Constants.BLUETOOTH_FILE_PATH);
+                Log.i("filename", csvFileName);
+                pathList = new ArrayList<>(CSVUtils.readCsv(new File(Constants.BLUETOOTH_FILE_PATH + csvFileName)));
+                // file.delete();
+                // new File(ft.BLUETOOTTH_FILE_PATH + csvFileName).delete();
+            } else if (file.getName().contains(".csv")) {
+                pathList = new ArrayList<>(CSVUtils.readCsv(file));
+                // file.delete();
+            }
+        }
+
+        if (pathList != null) {
+            return pathList;
+        } else {
+            return null;
+        }
+    }
+
 
 }

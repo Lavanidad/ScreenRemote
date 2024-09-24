@@ -87,7 +87,7 @@ public class UpdateFragment extends BaseFragment<UpdateFragmentPresenter, Fragme
             String downloadUrl = response.getErr_data().getPath();
             apkName = "H12Pro_" + response.getErr_data().getVersion() + ".apk";
 
-            PermissionUtils.requestPermissions(getActivity());
+            PermissionUtils.requestPermissions(getActivity(), PermissionUtils.REQUIRED_PERMISSIONS_UPDATE);
 
             // 检查是否拥有所需权限
             if (XXPermissions.isGranted(getActivity(), PermissionUtils.REQUIRED_PERMISSIONS_UPDATE)) {
@@ -128,7 +128,7 @@ public class UpdateFragment extends BaseFragment<UpdateFragmentPresenter, Fragme
             UpdateUtils.installApk(getActivity(), new File(Constants.APK_DOWNLOAD_FILE_PATH + apkName));
         } else {
             // 权限未授予，跳转到权限设置页面
-            PermissionUtils.requestPermissions(getActivity());
+            PermissionUtils.requestPermissions(getActivity(), PermissionUtils.REQUIRED_PERMISSIONS_UPDATE);
         }
     }
 

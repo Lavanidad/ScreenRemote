@@ -19,28 +19,24 @@ import java.util.List;
 public class PermissionUtils {
 
     // 权限列表
-    private static final String[] REQUIRED_PERMISSIONS = {
-            Manifest.permission.READ_MEDIA_AUDIO,
-            Manifest.permission.READ_MEDIA_IMAGES,
-            Manifest.permission.READ_MEDIA_VIDEO,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    public static final String[] REQUIRED_PERMISSIONS = {
+            Manifest.permission.MANAGE_EXTERNAL_STORAGE,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.CAMERA,
-            Manifest.permission.READ_PHONE_STATE
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.WRITE_SETTINGS,
     };
 
     // 安装权限列表
     public static final String[] REQUIRED_PERMISSIONS_UPDATE = {
-            Manifest.permission.INTERNET,                     // 访问互联网
-            Manifest.permission.ACCESS_NETWORK_STATE,         // 检查网络状态
             Manifest.permission.WRITE_EXTERNAL_STORAGE,       // 写入外部存储 (Android 10 及以下)
             Manifest.permission.REQUEST_INSTALL_PACKAGES
     };
 
-    public static void requestPermissions(Context context) {
+    public static void requestPermissions(Context context, String[] permissions) {
         XXPermissions.with(context)
-                .permission(REQUIRED_PERMISSIONS)
+                .permission(permissions)
                 .request(new OnPermissionCallback() {
 
                     @Override

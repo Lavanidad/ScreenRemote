@@ -19,7 +19,7 @@ import com.ljkj.lib_common.bean.LogBean;
 import com.ljkj.lib_common.bean.LogListBean;
 import com.ljkj.lib_common.common.Constants;
 import com.ljkj.lib_common.http.api.BaseResponse;
-import com.ljkj.lib_common.utils.FileUtils;
+import com.ljkj.lib_common.manager.FileManager;
 import com.ljkj.screenremote.adapter.LogListAdapter;
 import com.ljkj.screenremote.databinding.FragmentLogBinding;
 import com.ljkj.screenremote.ui.settings.contarct.LogFragmentContract;
@@ -55,15 +55,15 @@ public class LogFragment extends BaseFragment<LogFragmentPresenter, FragmentLogB
     private LogListAdapter adapterCrash;
     private LogListAdapter adapterOther;
 
-    private List<LogListBean> logListCan = new ArrayList<>();
-    private List<LogListBean> logListOperate = new ArrayList<>();
-    private List<LogListBean> logListNav = new ArrayList<>();
-    private List<LogListBean> logListCrash = new ArrayList<>();
-    private List<LogListBean> logListOther = new ArrayList<>();
+    private List<LogListBean> canlogList = new ArrayList<>();
+    private List<LogListBean> operatelogList = new ArrayList<>();
+    private List<LogListBean> navlogList = new ArrayList<>();
+    private List<LogListBean> crashlogList = new ArrayList<>();
+    private List<LogListBean> otherlogList = new ArrayList<>();
 
     private List<LogListBean> selectList = new ArrayList<>();
 
-    private FileUtils ft;
+    private FileManager ft;
 
     @Override
     protected FragmentLogBinding getViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
@@ -72,8 +72,8 @@ public class LogFragment extends BaseFragment<LogFragmentPresenter, FragmentLogB
 
     @Override
     protected void initView() {
-        ft = FileUtils.getInstance();
-        ft.init(getActivity());
+        ft = FileManager.getInstance();
+
 
         setupRecyclerViews();
         loadLogFiles();
@@ -82,11 +82,11 @@ public class LogFragment extends BaseFragment<LogFragmentPresenter, FragmentLogB
 
     @Override
     protected void initData() {
-//        createTestFile(ft.CAN_LOG_FILE_PATH, "can");
-//        createTestFile(ft.WORK_LOG_FILE_PATH, "work");
-//        createTestFile(ft.NAV_LOG_FILE_PATH, "nav");
-//        createTestFile(ft.CRASH_LOG_FILE_PATH, "crash");
-//        createTestFile(ft.OTHER_LOG_FILE_PATH, "other");
+        createTestFile(Constants.CAN_LOG_FILE_PATH, "can");
+        createTestFile(Constants.WORK_LOG_FILE_PATH, "work");
+        createTestFile(Constants.NAV_LOG_FILE_PATH, "nav");
+        createTestFile(Constants.CRASH_LOG_FILE_PATH, "crash");
+        createTestFile(Constants.OTHER_LOG_FILE_PATH, "other");
     }
 
     public void createTestFile(String path, String type) {
@@ -100,17 +100,9 @@ public class LogFragment extends BaseFragment<LogFragmentPresenter, FragmentLogB
                     fos.close();
                 }
             }
-
-            LogListBean testLogBean = new LogListBean();
-            testLogBean.setName("test_log_" + type + ".txt");
-            testLogBean.setPath(testFile.getAbsolutePath());
-            testLogBean.setSelect(false);
-            logListOther.add(testLogBean);  // 添加到 Other 列表中
-            adapterOther.setList(logListOther);  // 更新适配器
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e(TAG, "创建测试文件" +
-                    "失败: " + e.getMessage());
+            Log.e(TAG, "创建测试文件失败: " + e.getMessage());
         }
     }
 
@@ -221,20 +213,21 @@ public class LogFragment extends BaseFragment<LogFragmentPresenter, FragmentLogB
     }
 
     private void loadLogFiles() {
-        logListCan.addAll(ft.getSonNode(new File(Constants.CAN_LOG_FILE_PATH), 1));
-        adapterCan.setList(logListCan);
+        canlogList.addAll(ft.getSonNode(new File(Constants.CAN_LOG_FILE_PATH), 1));
+        adapterCan.setList(canlogList);
 
-        logListOperate.addAll(ft.getSonNode(new File(Constants.WORK_LOG_FILE_PATH), 2));
-        adapterOperate.setList(logListOperate);
+        operatelogList.addAll(ft.getSonNode(new File(Constants.WORK_LOG_FILE_PATH), 2));
+        adapterOperate.setList(operatelogList);
 
-        logListNav.addAll(ft.getSonNode(new File(Constants.NAV_LOG_FILE_PATH), 3));
-        adapterNav.setList(logListNav);
+        navlogList.addAll(ft.getSonNode(new File(Constants.NAV_LOG_FILE_PATH), 3));
+        adapterNav.setList(navlogList);
 
-        logListCrash.addAll(ft.getSonNode(new File(Constants.CRASH_LOG_FILE_PATH), 4));
-        adapterCrash.setList(logListCrash);
+        crashlogList.addAll(ft.getSonNode(new File(Constants.CRASH_LOG_FILE_PATH), 4));
+        adapterCrash.setList(crashlogList);
 
-        logListOther.addAll(ft.getSonNode(new File(Constants.OTHER_LOG_FILE_PATH), 5));
-        adapterOther.setList(logListOther);
+        otherlogList.addAll(ft.getSonNode(new File(Constants.OTHER_LOG_FILE_PATH), 5));
+        adapterOther.setList(otherlogList);
+
     }
 
     @SuppressLint("LongLogTag")
@@ -248,24 +241,6 @@ public class LogFragment extends BaseFragment<LogFragmentPresenter, FragmentLogB
         }
         Log.d(TAG, "select files: " + selectList.size());
     }
-
-
-    @SuppressLint("NotifyDataSetChanged")
-    private void clearSelectedFiles() {
-        selectList.clear();
-
-        for (LogListBean log : logListOther) {
-            log.setSelect(false);
-        }
-        adapterCan.notifyDataSetChanged();
-        adapterOperate.notifyDataSetChanged();
-        adapterNav.notifyDataSetChanged();
-        adapterCrash.notifyDataSetChanged();
-        adapterOther.notifyDataSetChanged();
-
-        Log.d(TAG, "选择的日志文件已清空");
-    }
-
 
     @Override
     public void showUpLoadSuccess(BaseResponse<LogBean> response) {

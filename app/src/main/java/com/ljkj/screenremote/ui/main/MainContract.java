@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.ljkj.lib_common.base.BaseView;
 import com.ljkj.lib_common.base.presenter.AbstractBasePresenter;
+import com.ljkj.lib_common.bean.PathInfoBean;
 import com.ljkj.lib_common.bean.SharingPathListBean;
 import com.ljkj.lib_common.http.api.BaseResponse;
 
@@ -15,18 +16,12 @@ import com.ljkj.lib_common.http.api.BaseResponse;
 public interface MainContract {
 
     interface MainView extends BaseView {
-        void showPost(String msg);
+        void showPathInfo(BaseResponse<PathInfoBean> response);
 
-        void showGet(String msg);
-
-        void showPost2(BaseResponse<SharingPathListBean> bean);
+        void getPathInfoError(String msg);
     }
 
     interface MainActivityPresenter extends AbstractBasePresenter<MainView> {
-        void sendPost(Context context, String username, String pwd, String rpwd);
-
-        void sendGet();
-
-        void sendPost2(String page_index, String page_size, String lat, String lng, int path_type);
+        void getPathInfo(String deviceCode, String pathId);
     }
 }

@@ -3,6 +3,7 @@ package com.ljkj.screenremote.manager;
 import android.content.Context;
 import android.util.Log;
 
+import com.ljkj.lib_common.common.Constants;
 import com.ljkj.screenremote.callback.RCDataCallback;
 import com.ljkj.screenremote.helper.ReadRCButtonHelper;
 import com.ljkj.screenremote.utils.ByteUtils;
@@ -183,6 +184,7 @@ public class ControllerManager {
             @Override
             public void onSuccess(String p0) {
                 Log.d(TAG, "获取序列号：" + p0);
+                Constants.SN = p0;
             }
 
             @Override

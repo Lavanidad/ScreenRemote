@@ -90,25 +90,25 @@ public class SerialDataParserHelper {
             if (logOpen) {
                 Log.d(TAG, "【RCSDK】解析成功： CRC check success");
             }
-            return new SerialDataBean.Builder()
-                    .setTimestamp(timeStamps)
-                    .setLatitude(latitude / Math.pow(10, 7))
-                    .setLongitude(longitude / Math.pow(10, 7))
-                    .setSpeed((float) (speed / Math.pow(10, 2)))
-                    .setRtkStatus(rtkStatus)
-                    .setSatelliteCount(satelliteCount)
-                    .setLiquidLevelValue(liquidLevelValue)
-                    .setOilCount(oilCount)
-                    .setBatteryCount(batteryCount)
-                    .setLeftErrorCode(leftErrorCode)
-                    .setRightErrorCode(rightErrorCode)
-                    .setBroadStatus(broadStatus)
-                    .setDiff(diff)
-                    .setMedicalPre(medicalPre)
-                    .setDeviceId(deviceId)
-                    .setAngle((float) (angle / Math.pow(10, 2)))
-                    .setPathId(pathId)
-                    .build();
+            return new SerialDataBean(
+                    timeStamps,
+                    latitude / Math.pow(10, 7),
+                    longitude / Math.pow(10, 7),
+                    (float)(speed / Math.pow(10, 2)),
+                    rtkStatus,
+                    satelliteCount,
+                    liquidLevelValue,
+                    oilCount,
+                    batteryCount,
+                    leftErrorCode,
+                    rightErrorCode,
+                    broadStatus,
+                    diff,
+                    medicalPre,
+                    deviceId,
+                    (float) (angle / Math.pow(10, 2)),
+                    pathId
+            );
         } else {
             Log.d(TAG, "【RCSDK】解析失败： CRC check failed,byteCRC=" + crc + ",signCRC:" + signCrc);
             return null;

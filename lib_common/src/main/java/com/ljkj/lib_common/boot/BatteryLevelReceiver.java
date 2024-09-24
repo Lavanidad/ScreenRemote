@@ -23,13 +23,17 @@ public class BatteryLevelReceiver extends BroadcastReceiver {
         void onBatteryLevelChanged(String percent);
     }
 
-    public BatteryLevelReceiver(BatteryCallback callback) {
+    public BatteryLevelReceiver() {
+    }
+
+    public void setOnBatteryChange(BatteryCallback callback) {
         this.callback = callback;
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent == null) {
+            Log.e(TAG,"null");
             return;
         }
 
@@ -49,6 +53,7 @@ public class BatteryLevelReceiver extends BroadcastReceiver {
 
             if (callback != null) {
                 callback.onBatteryLevelChanged(percent);
+                Log.d(TAG,"onBatteryLevelChanged: " + percent);
             }
 
         } else if (Intent.ACTION_POWER_CONNECTED.equals(action)) {

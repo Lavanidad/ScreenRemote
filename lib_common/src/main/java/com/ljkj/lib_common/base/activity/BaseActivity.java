@@ -60,7 +60,7 @@ public abstract class BaseActivity<P extends AbstractBasePresenter, VB extends V
         if (mPresenter != null) {
             mPresenter.attachView(this);
         }
-        PermissionUtils.requestPermissions(this);
+        PermissionUtils.requestPermissions(this, PermissionUtils.REQUIRED_PERMISSIONS);
         initView();
         initMapView(savedInstanceState);
     }

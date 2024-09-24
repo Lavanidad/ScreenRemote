@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ljkj.lib_common.base.presenter.BaseRxPresenter;
+import com.ljkj.lib_common.bean.PathInfoBean;
 import com.ljkj.lib_common.bean.SharingPathListBean;
 import com.ljkj.lib_common.bean.TestBean;
 import com.ljkj.lib_common.http.HttpClient;
@@ -75,20 +76,19 @@ public class MainPresenter extends BaseRxPresenter<MainContract.MainView> implem
     }
 
     @Override
-    public void sendPost2(String page_index, String page_size, String lat, String lng, int path_type) {
-        Observable<BaseResponse<SharingPathListBean>> responseObservable = mHttpClient.postTest2(page_index, page_size, lat, lng, path_type);
+    public void getPathInfo(String deviceCode, String pathId) {
+        Observable<BaseResponse<PathInfoBean>> responseObservable = mHttpClient.getPathInfo(deviceCode, pathId);
         responseObservable.compose(RxSchedulers.observableIO2Main())
-                .subscribe(new BaseObserver<BaseResponse<SharingPathListBean>>() {
+                .subscribe(new BaseObserver<BaseResponse<PathInfoBean>>() {
                     @Override
-                    public void onSuccess(BaseResponse<SharingPathListBean> result) {
-                        mView.showPost2(result);
+                    public void onSuccess(BaseResponse<PathInfoBean> result) {
+                        mView.showPathInfo(result);
                     }
 
                     @Override
                     public void onFailure(Throwable e, String errorMsg) {
-                        mView.showErrorMsg(errorMsg);
+                        mView.getPathInfoError(errorMsg);
                     }
                 });
-
     }
 }

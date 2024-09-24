@@ -9,156 +9,193 @@ import java.util.Arrays;
  */
 public class SerialDataBean {
 
-    private final long timestamp;
-    private final double latitude;
-    private final double longitude;
-    private final float speed;
-    private final int rtkStatus;
-    private final int satelliteCount;
-    private final int liquidLevelValue;
-    private final int oilCount;
-    private final int batteryCount;
-    private final int leftErrorCode;
-    private final int rightErrorCode;
-    private final int[] broadStatus;
-    private final int diff;
-    private final int medicalPre;
-    private final String deviceId;
-    private final float angle;
+    private long timestamp;
+    private double latitude;
+    private double longitude;
+    private float speed;
+    private int rtkStatus;
+    private int satelliteCount;
+    private int liquidLevelValue;
+    private int oilCount;
+    private int batteryCount;
+    private int leftErrorCode;
+    private int rightErrorCode;
+    /**
+     * 主板状态:
+     * bit0: 无人/遥控   0->遥控 1->无人
+     * bit1: 打药状态
+     * bit2: 急停状态
+     * bit3: 发动机状态
+     * bit4: 电驱状态
+     * bit5: 低液位状态
+     * bit6: 雷达开启状态
+     */
+    private int[] broadStatus;
+    private int diff;
+    private int medicalPre;
+    private String deviceId;
+    private float angle;
     private String pathId;
 
-    private SerialDataBean(Builder builder) {
-        this.timestamp = builder.timestamp;
-        this.latitude = builder.latitude;
-        this.longitude = builder.longitude;
-        this.speed = builder.speed;
-        this.rtkStatus = builder.rtkStatus;
-        this.satelliteCount = builder.satelliteCount;
-        this.liquidLevelValue = builder.liquidLevelValue;
-        this.oilCount = builder.oilCount;
-        this.batteryCount = builder.batteryCount;
-        this.leftErrorCode = builder.leftErrorCode;
-        this.rightErrorCode = builder.rightErrorCode;
-        this.broadStatus = builder.broadStatus;
-        this.diff = builder.diff;
-        this.medicalPre = builder.medicalPre;
-        this.deviceId = builder.deviceId;
-        this.angle = builder.angle;
-        this.pathId = builder.pathId;
+    public SerialDataBean(long timestamp, double latitude, double longitude, float speed, int rtkStatus, int satelliteCount, int liquidLevelValue, int oilCount, int batteryCount, int leftErrorCode, int rightErrorCode, int[] broadStatus, int diff, int medicalPre, String deviceId, float angle, String pathId) {
+        this.timestamp = timestamp;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.speed = speed;
+        this.rtkStatus = rtkStatus;
+        this.satelliteCount = satelliteCount;
+        this.liquidLevelValue = liquidLevelValue;
+        this.oilCount = oilCount;
+        this.batteryCount = batteryCount;
+        this.leftErrorCode = leftErrorCode;
+        this.rightErrorCode = rightErrorCode;
+        this.broadStatus = broadStatus;
+        this.diff = diff;
+        this.medicalPre = medicalPre;
+        this.deviceId = deviceId;
+        this.angle = angle;
+        this.pathId = pathId;
     }
 
-    public static class Builder {
-        private long timestamp;
-        private double latitude;
-        private double longitude;
-        private float speed;
-        private int rtkStatus;
-        private int satelliteCount;
-        private int liquidLevelValue;
-        private int oilCount;
-        private int batteryCount;
-        private int leftErrorCode;
-        private int rightErrorCode;
-        private int[] broadStatus;
-        private int diff;
-        private int medicalPre;
-        private String deviceId;
-        private float angle;
-        private String pathId;
+    public long getTimestamp() {
+        return timestamp;
+    }
 
-        public Builder setTimestamp(long timestamp) {
-            this.timestamp = timestamp;
-            return this;
-        }
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 
-        public Builder setLatitude(double latitude) {
-            this.latitude = latitude;
-            return this;
-        }
+    public double getLat() {
+        return latitude;
+    }
 
-        public Builder setLongitude(double longitude) {
-            this.longitude = longitude;
-            return this;
-        }
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
-        public Builder setSpeed(float speed) {
-            this.speed = speed;
-            return this;
-        }
+    public double getLng() {
+        return longitude;
+    }
 
-        public Builder setRtkStatus(int rtkStatus) {
-            this.rtkStatus = rtkStatus;
-            return this;
-        }
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 
-        public Builder setSatelliteCount(int satelliteCount) {
-            this.satelliteCount = satelliteCount;
-            return this;
-        }
+    public float getSpeed() {
+        return speed;
+    }
 
-        public Builder setLiquidLevelValue(int liquidLevelValue) {
-            this.liquidLevelValue = liquidLevelValue;
-            return this;
-        }
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
 
-        public Builder setOilCount(int oilCount) {
-            this.oilCount = oilCount;
-            return this;
-        }
+    public int getRtkStatus() {
+        return rtkStatus;
+    }
 
-        public Builder setBatteryCount(int batteryCount) {
-            this.batteryCount = batteryCount;
-            return this;
-        }
+    public void setRtkStatus(int rtkStatus) {
+        this.rtkStatus = rtkStatus;
+    }
 
-        public Builder setLeftErrorCode(int leftErrorCode) {
-            this.leftErrorCode = leftErrorCode;
-            return this;
-        }
+    public int getSatelliteCount() {
+        return satelliteCount;
+    }
 
-        public Builder setRightErrorCode(int rightErrorCode) {
-            this.rightErrorCode = rightErrorCode;
-            return this;
-        }
+    public void setSatelliteCount(int satelliteCount) {
+        this.satelliteCount = satelliteCount;
+    }
 
-        public Builder setBroadStatus(int[] broadStatus) {
-            this.broadStatus = broadStatus;
-            return this;
-        }
+    public int getLiquidLevelValue() {
+        return liquidLevelValue;
+    }
 
-        public Builder setDiff(int diff) {
-            this.diff = diff;
-            return this;
-        }
+    public void setLiquidLevelValue(int liquidLevelValue) {
+        this.liquidLevelValue = liquidLevelValue;
+    }
 
-        public Builder setMedicalPre(int medicalPre) {
-            this.medicalPre = medicalPre;
-            return this;
-        }
+    public int getOilCount() {
+        return oilCount;
+    }
 
-        public Builder setDeviceId(String deviceId) {
-            this.deviceId = deviceId;
-            return this;
-        }
+    public void setOilCount(int oilCount) {
+        this.oilCount = oilCount;
+    }
 
-        public Builder setAngle(float angle) {
-            this.angle = angle;
-            return this;
-        }
+    public int getBatteryCount() {
+        return batteryCount;
+    }
 
-        public Builder setPathId(String pathId) {
-            this.pathId = pathId;
-            return this;
-        }
+    public void setBatteryCount(int batteryCount) {
+        this.batteryCount = batteryCount;
+    }
 
-        public SerialDataBean build() {
-            return new SerialDataBean(this);
-        }
+    public int getLeftErrorCode() {
+        return leftErrorCode;
+    }
+
+    public void setLeftErrorCode(int leftErrorCode) {
+        this.leftErrorCode = leftErrorCode;
+    }
+
+    public int getRightErrorCode() {
+        return rightErrorCode;
+    }
+
+    public void setRightErrorCode(int rightErrorCode) {
+        this.rightErrorCode = rightErrorCode;
+    }
+
+    public int[] getBroadStatus() {
+        return broadStatus;
+    }
+
+    public void setBroadStatus(int[] broadStatus) {
+        this.broadStatus = broadStatus;
+    }
+
+    public int getDiff() {
+        return diff;
+    }
+
+    public void setDiff(int diff) {
+        this.diff = diff;
+    }
+
+    public int getMedicalPre() {
+        return medicalPre;
+    }
+
+    public void setMedicalPre(int medicalPre) {
+        this.medicalPre = medicalPre;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public float getAngle() {
+        return angle;
+    }
+
+    public void setAngle(float angle) {
+        this.angle = angle;
+    }
+
+    public String getPathId() {
+        return pathId;
+    }
+
+    public void setPathId(String pathId) {
+        this.pathId = pathId;
     }
 
     @Override
     public String toString() {
-        return "H12SerialData{" +
+        return "SerialDataBean{" +
                 "timestamp=" + timestamp +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +

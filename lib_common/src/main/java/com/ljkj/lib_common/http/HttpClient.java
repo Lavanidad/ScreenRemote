@@ -2,6 +2,7 @@ package com.ljkj.lib_common.http;
 
 import com.ljkj.lib_common.bean.AppVersionBean;
 import com.ljkj.lib_common.bean.LogBean;
+import com.ljkj.lib_common.bean.PathInfoBean;
 import com.ljkj.lib_common.bean.SharingPathListBean;
 import com.ljkj.lib_common.bean.TestBean;
 import com.ljkj.lib_common.http.api.BaseResponse;
@@ -28,23 +29,15 @@ public class HttpClient {
     }
 
 
-    public Observable<TestBean> getTest() {
-        return httpHelper.getTest();
-    }
-
-    public Observable<String> postTest(String phone, String pwd, String repwd) {
-        return httpHelper.postTest(phone, pwd, repwd);
-    }
-
-    public Observable<BaseResponse<SharingPathListBean>> postTest2(String page_index, String page_size, String lat, String lng, int path_type) {
-        return httpHelper.postTest2(page_index, page_size, lat, lng, path_type);
-    }
-
     public Observable<BaseResponse<LogBean>> uploadLog(String sn, String logType, File file, String fileName, String jsonString) {
         return httpHelper.uploadLog(sn, logType, file, fileName, jsonString);
     }
 
     public Observable<BaseResponse<AppVersionBean>> checkAppVersion(String moduleName, String deviceType) {
         return httpHelper.checkAppVersion(moduleName, deviceType);
+    }
+
+    public Observable<BaseResponse<PathInfoBean>> getPathInfo(String deviceCode, String pathId) {
+        return httpHelper.getPathInfo(deviceCode, pathId);
     }
 }

@@ -43,7 +43,7 @@ public class LogFragmentPresenter extends BaseRxPresenter<LogFragmentContract.Lo
     public void uploadLog(Context context, String sn, String logType, File file, String fileName, String jsonString) {
         Observable<BaseResponse<LogBean>> responseBodyObservable = mHttpClient.uploadLog(sn, logType, file, fileName, jsonString);
         responseBodyObservable.compose(RxSchedulers.observableIO2Main())
-                .subscribe(new ProgressObserver<BaseResponse<LogBean>>(context, "上传中") {    //TODO 国际化
+                .subscribe(new ProgressObserver<BaseResponse<LogBean>>(context, "上传中") {
                     @Override
                     public void onSuccess(BaseResponse<LogBean> result) {
                         mView.showUpLoadSuccess(result);

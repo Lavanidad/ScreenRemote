@@ -2,6 +2,8 @@ package com.ljkj.lib_common.http.api;
 
 import com.ljkj.lib_common.bean.AppVersionBean;
 import com.ljkj.lib_common.bean.LogBean;
+import com.ljkj.lib_common.bean.PathInfoBean;
+import com.ljkj.lib_common.bean.PathPointBean;
 import com.ljkj.lib_common.bean.SharingPathListBean;
 import com.ljkj.lib_common.bean.TestBean;
 
@@ -27,12 +29,6 @@ import retrofit2.http.Query;
  */
 public interface ApiService {
 
-    @GET("tools/list/json")
-    Observable<TestBean> getTest();
-
-    @FormUrlEncoded
-    @POST("user/login")
-    Observable<String> postTest(@Field("username") String username, @Field("password") String password, @Field("repassword") String repassword);
 
     @GET("v1/sharing/path/list")
     Observable<BaseResponse<SharingPathListBean>> postTest2(
@@ -45,22 +41,11 @@ public interface ApiService {
     /**
      * 文件上传
      *
-     * @param sn
-     * @param logType
-     * @param params
-     * @param file
-     * @param fileName
+     * @param
      * @return
      */
-    @Multipart
     @PUT("v1/upload/log")
-    Observable<BaseResponse<LogBean>> uploadLog(
-            @Part("sn") RequestBody sn,
-            @Part("log_type") RequestBody logType,
-            @Part("params") RequestBody params,
-            @Part MultipartBody.Part file,
-            @Part("file_name") RequestBody fileName
-    );
+    Observable<BaseResponse<LogBean>> uploadLog(@Body RequestBody requestBody);
 
     /**
      * 查询新版本APP
@@ -73,6 +58,18 @@ public interface ApiService {
     Observable<BaseResponse<AppVersionBean>> checkAppVersion(
             @Query("module_name") String moduleName,
             @Query("device_type") String deviceType
+    );
+
+    /**
+     * 获取路径详情
+     * @param deviceCode
+     * @param pathId
+     * @return
+     */
+    @GET("v1/control/path/info")
+    Observable<BaseResponse<PathInfoBean>> getPathInfo(
+            @Query("device_code") String deviceCode,
+            @Query("path_id") String pathId
     );
 
 }

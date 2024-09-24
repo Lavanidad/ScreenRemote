@@ -3,6 +3,7 @@ package com.ljkj.lib_common.http;
 
 import com.ljkj.lib_common.bean.AppVersionBean;
 import com.ljkj.lib_common.bean.LogBean;
+import com.ljkj.lib_common.bean.PathInfoBean;
 import com.ljkj.lib_common.bean.SharingPathListBean;
 import com.ljkj.lib_common.bean.TestBean;
 import com.ljkj.lib_common.http.api.BaseResponse;
@@ -16,6 +17,7 @@ import io.reactivex.rxjava3.core.Observable;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.http.Query;
 
 /**
  * 作者: fzy
@@ -49,18 +51,24 @@ public class HttpHelper {
     }
 
     public Observable<BaseResponse<LogBean>> uploadLog(String sn, String logType, File file, String fileName, String jsonString) {
-        RequestBody snBody = RequestBody.create(sn, MediaType.parse("text/plain"));
-        RequestBody logTypeBody = RequestBody.create(logType, MediaType.parse("text/plain"));
-        RequestBody paramsBody = RequestBody.create(jsonString, MediaType.parse("text/plain"));
-        RequestBody fileNameBody = RequestBody.create(fileName, MediaType.parse("text/plain"));
+        RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
-        RequestBody fileBody = RequestBody.create(file, MediaType.parse("multipart/form-data"));
-        MultipartBody.Part filePart = MultipartBody.Part.createFormData("file", fileName, fileBody);
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("sn", sn)
+                .addFormDataPart("log_type", logType)
+                .addFormDataPart("params", jsonString)
+                .addFormDataPart("file", fileName, fileBody)
+                .build();
 
-        return getApiService().uploadLog(snBody, logTypeBody, paramsBody, filePart, fileNameBody);
+        return getApiService().uploadLog(requestBody);
     }
 
     public Observable<BaseResponse<AppVersionBean>> checkAppVersion(String moduleName, String deviceType) {
         return getApiService().checkAppVersion(moduleName, deviceType);
+    }
+
+    public Observable<BaseResponse<PathInfoBean>> getPathInfo(String deviceCode, String pathId) {
+        return getApiService().getPathInfo(deviceCode, pathId);
     }
 }
