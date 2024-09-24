@@ -3,8 +3,6 @@ package com.ljkj.lib_common.http;
 import com.ljkj.lib_common.bean.AppVersionBean;
 import com.ljkj.lib_common.bean.LogBean;
 import com.ljkj.lib_common.bean.PathInfoBean;
-import com.ljkj.lib_common.bean.SharingPathListBean;
-import com.ljkj.lib_common.bean.TestBean;
 import com.ljkj.lib_common.http.api.BaseResponse;
 
 import java.io.File;

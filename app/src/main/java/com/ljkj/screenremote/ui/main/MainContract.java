@@ -1,11 +1,8 @@
 package com.ljkj.screenremote.ui.main;
 
-import android.content.Context;
-
 import com.ljkj.lib_common.base.BaseView;
 import com.ljkj.lib_common.base.presenter.AbstractBasePresenter;
 import com.ljkj.lib_common.bean.PathInfoBean;
-import com.ljkj.lib_common.bean.SharingPathListBean;
 import com.ljkj.lib_common.http.api.BaseResponse;
 
 /**
