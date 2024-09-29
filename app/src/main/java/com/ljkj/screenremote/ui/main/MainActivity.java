@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.MapView;
@@ -20,6 +23,7 @@ import com.hjq.toast.Toaster;
 import com.ljkj.lib_common.base.activity.BaseActivity;
 import com.ljkj.lib_common.bean.PathInfoBean;
 import com.ljkj.lib_common.bean.PathPointBean;
+import com.ljkj.lib_common.bean.WarnDataBean;
 import com.ljkj.lib_common.common.Constants;
 import com.ljkj.lib_common.http.api.BaseResponse;
 import com.ljkj.lib_common.boot.BatteryLevelReceiver;
@@ -28,7 +32,8 @@ import com.ljkj.lib_common.manager.FileManager;
 import com.ljkj.lib_common.manager.TTSManager;
 import com.ljkj.lib_common.utils.CSVUtils;
 import com.ljkj.screenremote.R;
-import com.ljkj.screenremote.bean.SerialDataBean;
+import com.ljkj.lib_common.bean.SerialDataBean;
+import com.ljkj.screenremote.adapter.WarningAdapter;
 import com.ljkj.screenremote.callback.RCDataCallback;
 import com.ljkj.screenremote.databinding.ActivityMainBinding;
 import com.ljkj.screenremote.manager.ControllerManager;
@@ -57,6 +62,10 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
     private AMap aMap;
     private Marker marker;
 
+    private View floatingView;
+    private WarningAdapter warningAdapter;
+    private List<WarnDataBean> warnDataBeanList = new ArrayList<>();
+
     private BatteryLevelReceiver batteryReceiver;
     private List<PathPointBean> pathList = new ArrayList<>();
 
@@ -82,7 +91,7 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
     protected void initView() {
         binding = getBinding();
         controllerManager = ControllerManager.getInstance(this);
-//        controllerManager.init();
+        controllerManager.init();
 
         fpvPlayerManager = FPVPlayerManager.getInstance(binding.fpvWidget, Constants.RTSP);
 
@@ -90,6 +99,8 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
         fileManager.init(this);
 
         ttsManager = TTSManager.getInstance(this);
+
+       // initFloatingView();
     }
 
     @Override
@@ -121,6 +132,7 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
         controllerManager.setRcSerialDataCallback(new RCDataCallback() {
             @Override
             public void onSerialDataParsed(SerialDataBean data) {
+                CSVUtils.writeCsvLogFile(MainActivity.this, data, "testNav");
                 if (data.getLat() <= 0 || data.getLng() <= 0) {
                     Log.e(TAG, "非有效经纬度");
                     return;
@@ -151,16 +163,22 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
 
             @Override
             public void onSignalQualityData(int signalQuality) {
-                binding.tvSignal.setText("12");
+                binding.tvSignal.setText(signalQuality);
                 Log.e(TAG, "setText signal");
             }
         });
 
-        batteryReceiver.setOnBatteryChange(percent -> {
-            binding.tvBattery.setText("12");
+        batteryReceiver.setOnBatteryChange(new BatteryLevelReceiver.BatteryCallback() {
+            @Override
+            public void onBatteryLevelChanged(final String percent) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.tvBattery.setText("12");
+                    }
+                });
+            }
         });
-
-        binding.tvSignal.setText("12");
 
         binding.ivSwitch.setOnClickListener(v -> fpvPlayerManager.switchVideoMap(mapView));
 
@@ -208,19 +226,28 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
         binding.tvRemainMedical.setText(dataBean.getLiquidLevelValue());
     }
 
+    private void initFloatingView() {
+        floatingView = LayoutInflater.from(this).inflate(R.layout.view_floating_warning, null);
+        RecyclerView recyclerView = floatingView.findViewById(R.id.rv_warn);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+        warningAdapter = new WarningAdapter(this);
+        recyclerView.setAdapter(warningAdapter);
+
+        warningAdapter.setList(warnDataBeanList);
+        warningAdapter.notify();
+    }
+
 
     private void registerBroadcast(BatteryLevelReceiver batteryReceiver) {
-        Log.e(TAG, "start");
+        Log.e(TAG, "registerBroadcast");
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_BATTERY_CHANGED);
         filter.addAction(Intent.ACTION_POWER_CONNECTED);
         filter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         registerReceiver(batteryReceiver, filter);
-    }
-
-    @Override
-    public void showErrorMsg(String errorMsg) {
-        Log.i("Main2", errorMsg);
     }
 
     private void drawMark(LatLng latLng, double angle) {
@@ -310,13 +337,14 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
 
     private void notifyWarning(String text) {
         ttsManager.speakText("$text,");
-//        warningDatas.add(0, WarningData(text, System.currentTimeMillis()));
-//        warningListLiveData.postValue(warningDatas);
+        warnDataBeanList.add(new WarnDataBean(text,System.currentTimeMillis()));
+        warningAdapter.notifyDataSetChanged();
     }
 
 
     @Override
     public void showPathInfo(BaseResponse<PathInfoBean> response) {
+        Toaster.show("路径同步成功");
         List<PathPointBean> pathList = new ArrayList<>(CSVUtils.readCsv(new File(response.getErr_data().getCsv_file_path())));
         List<LatLng> latLngs = new ArrayList<>();
         for (int i = 0; i < pathList.size(); i++) {
@@ -343,6 +371,9 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
         }
         if (mapManager != null) {
             mapManager.release();
+        }
+        if (batteryReceiver != null) {
+            unregisterReceiver(batteryReceiver);
         }
         if (ttsManager != null) {
             ttsManager.release();

@@ -1,4 +1,4 @@
-package com.ljkj.screenremote.bean;
+package com.ljkj.lib_common.bean;
 
 import java.util.Arrays;
 

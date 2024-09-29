@@ -1,6 +1,5 @@
 package com.ljkj.screenremote.adapter;
 
-import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 

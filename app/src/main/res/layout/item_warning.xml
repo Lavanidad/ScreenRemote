@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="2dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_warn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@mipmap/warn_small_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_warn_title"
+        app:layout_constraintLeft_toRightOf="@+id/iv_warn"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:textColor="#ffffffff"
+        android:textSize="7sp"
+        android:text="车辆状态告警"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_warn_text"
+        app:layout_constraintLeft_toRightOf="@+id/iv_warn"
+        app:layout_constraintTop_toBottomOf="@+id/tv_warn_title"
+        android:text="低液位停车"
+        android:textColor="#ccffffff"
+        android:textSize="7sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        app:layout_constraintLeft_toRightOf="@+id/tv_warn_title"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:text="2024-07-15 16:10:14"
+        android:textColor="#99ffffff"
+        android:layout_marginLeft="3dp"
+        android:textSize="6sp"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_width="100dp"
+        android:layout_height="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_warn_text"
+        android:background="#1affffff"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

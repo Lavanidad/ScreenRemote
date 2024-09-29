@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ljkj.lib_common.common.Constants;
+import com.ljkj.lib_common.utils.CSVUtils;
 import com.ljkj.screenremote.callback.RCDataCallback;
 import com.ljkj.screenremote.helper.ReadRCButtonHelper;
 import com.ljkj.screenremote.utils.ByteUtils;
@@ -130,7 +131,7 @@ public class ControllerManager {
     }
 
     /**
-     * 统一管理初始化后的操作  TODO：0911 是否要默认开启对频
+     * 统一管理初始化后的操作
      */
     private void startKeyManagerOperations() {
         KeyManager.INSTANCE.cancelListen(keySignalQualityListener);//确保反复监听问题，SDK写法
@@ -358,6 +359,7 @@ public class ControllerManager {
         // 自定义按钮事件处理器
         ButtonHandler buttonHandler = (buttonAction, oldValue, newValue, ints, completionCallback) -> {
             Log.d(TAG, "处理自定义按钮事件4：" + buttonAction + ", " + oldValue + "，" + newValue);
+
             switch (buttonAction) {
                 case CUSTOM_0: // A
                     if (newValue == CHANNEL_HIGH) {
@@ -448,6 +450,8 @@ public class ControllerManager {
                 default:
                     break;
             }
+            String csvData = System.currentTimeMillis() + "," + buttonAction + "," + oldValue + "," + newValue;
+            CSVUtils.writeCsvLogFile(context, csvData); // 记录到 CSV
         };
 
         // 关联配置与事件处理器

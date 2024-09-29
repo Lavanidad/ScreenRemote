@@ -93,6 +93,43 @@ public class FileManager {
         return file;
     }
 
+    // 创建Log文件
+    public File createNavLogFile(String name) {
+        // 判断文件夹是否有了
+        File fileDirectory = new File(Constants.NAV_LOG_FILE_PATH);
+        if (!fileDirectory.exists()) {
+            fileDirectory.mkdirs();
+        }
+        // 判断是否有这个文件
+        File file = new File(Constants.NAV_LOG_FILE_PATH + name);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return file;
+    }
+
+    public File createOpLogFile(String name) {
+        // 判断文件夹是否有了
+        File fileDirectory = new File(Constants.WORK_LOG_FILE_PATH);
+        if (!fileDirectory.exists()) {
+            fileDirectory.mkdirs();
+        }
+        // 判断是否有这个文件
+        File file = new File(Constants.WORK_LOG_FILE_PATH + name);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return file;
+    }
+
 
     // 获取文件大小
     public static int getFileSize(File file) {

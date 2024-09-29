@@ -291,11 +291,18 @@ public class MapManager {
 
 
     // 定位到目标位置
+//    public void moveTo(LatLng latlng) {
+//        aMap.moveCamera(CameraUpdateFactory.newCameraPosition(
+//                new CameraPosition(latlng, 15f, 0f, 0f)
+//        ));
+//    }
+
     public void moveTo(LatLng latlng) {
-        aMap.moveCamera(CameraUpdateFactory.newCameraPosition(
-                new CameraPosition(latlng, 15f, 0f, 0f)
+        aMap.moveCamera(CameraUpdateFactory.changeLatLng(
+                latlng
         ));
     }
+
 
     // 定位到目标位置, 设置偏航角
     public void moveTo(LatLng latlng, float angle) {

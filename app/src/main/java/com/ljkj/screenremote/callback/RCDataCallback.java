@@ -1,6 +1,6 @@
 package com.ljkj.screenremote.callback;
 
-import com.ljkj.screenremote.bean.SerialDataBean;
+import com.ljkj.lib_common.bean.SerialDataBean;
 
 /**
  * 作者: fzy

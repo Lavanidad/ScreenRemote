@@ -2,7 +2,7 @@ package com.ljkj.screenremote.helper;
 
 import android.util.Log;
 
-import com.ljkj.screenremote.bean.SerialDataBean;
+import com.ljkj.lib_common.bean.SerialDataBean;
 import com.ljkj.screenremote.utils.ByteUtils;
 
 import java.nio.ByteBuffer;
