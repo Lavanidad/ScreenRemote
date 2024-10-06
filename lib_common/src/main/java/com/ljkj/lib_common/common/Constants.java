@@ -17,6 +17,8 @@ public class Constants {
     public static final String Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NzM1MzQ0MjAsInVzZXJJZCI6IjE2NjYzMTY2ODQ4MTI4NjQyIiwidXNlck5hbWUiOiLnjovogarogaoifQ.B9CFcC2iUuS7YEDKTJjV1giu6SQfr7Yif0aMeXSg4UU";
 
 
+    public static final String WS_URL = "ws://124.222.224.186:8800";
+
     //苏宁
     //double lat = 32.6155776;
     //double lnt = 118.0686208;

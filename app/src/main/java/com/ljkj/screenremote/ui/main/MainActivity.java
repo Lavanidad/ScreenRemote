@@ -5,9 +5,11 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,11 +27,15 @@ import com.ljkj.lib_common.bean.PathInfoBean;
 import com.ljkj.lib_common.bean.PathPointBean;
 import com.ljkj.lib_common.bean.WarnDataBean;
 import com.ljkj.lib_common.common.Constants;
+import com.ljkj.lib_common.event.WSBinaryMessageEvent;
+import com.ljkj.lib_common.event.WSJsonMessageEvent;
+import com.ljkj.lib_common.event.WSTextMessageEvent;
 import com.ljkj.lib_common.http.api.BaseResponse;
 import com.ljkj.lib_common.boot.BatteryLevelReceiver;
 
 import com.ljkj.lib_common.manager.FileManager;
 import com.ljkj.lib_common.manager.TTSManager;
+import com.ljkj.lib_common.manager.WebSocketClient;
 import com.ljkj.lib_common.utils.CSVUtils;
 import com.ljkj.screenremote.R;
 import com.ljkj.lib_common.bean.SerialDataBean;
@@ -39,10 +45,18 @@ import com.ljkj.screenremote.databinding.ActivityMainBinding;
 import com.ljkj.screenremote.manager.ControllerManager;
 import com.ljkj.screenremote.manager.FPVPlayerManager;
 import com.ljkj.screenremote.manager.MapManager;
+import com.ljkj.screenremote.test.FileCreator;
 import com.ljkj.screenremote.ui.settings.SettingsActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -82,6 +96,9 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
     private int curRtkCode = 0;
     private String curPathId = "";
 
+    private WebSocketClient webSocketClient;
+
+
     @Override
     protected ActivityMainBinding getBinding() {
         return ActivityMainBinding.inflate(getLayoutInflater());
@@ -90,8 +107,9 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
     @Override
     protected void initView() {
         binding = getBinding();
+
         controllerManager = ControllerManager.getInstance(this);
-        controllerManager.init();
+//        controllerManager.init();
 
         fpvPlayerManager = FPVPlayerManager.getInstance(binding.fpvWidget, Constants.RTSP);
 
@@ -100,24 +118,7 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
 
         ttsManager = TTSManager.getInstance(this);
 
-       // initFloatingView();
-    }
-
-    @Override
-    protected void initMapView(@Nullable Bundle savedInstanceState) {
-        super.initMapView(savedInstanceState);
-
-        MapsInitializer.updatePrivacyShow(this, true, true);
-        MapsInitializer.updatePrivacyAgree(this, true);
-
-        mapView = findViewById(R.id.map);
-        mapView.onCreate(savedInstanceState);
-        aMap = mapView.getMap();
-
-        mapManager = MapManager.getInstance(this);
-        mapManager.init(aMap);
-        mapManager.locationInTime();
-        mapManager.initLocation(this);
+        // initFloatingView();
     }
 
 
@@ -174,7 +175,7 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        binding.tvBattery.setText("12");
+                        binding.tvBattery.setText(percent);
                     }
                 });
             }
@@ -209,7 +210,110 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
                 mapManager.moveTo(mapManager.converLatlng(getApplication(), new LatLng(pathList.get(0).getLat(), pathList.get(0).getLng())), 0f);
             }
         });
+
+
+        //TEST
+        String directoryPath = getExternalFilesDir(null).getAbsolutePath();
+        String mockFilePath = FileCreator.createMockCsvFile(directoryPath);
+        webSocketClient = WebSocketClient.getInstance(Constants.WS_URL);
+        webSocketClient.connect();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                webSocketClient.sendFileAsJson(mockFilePath);
+                JSONObject jsonMessage = new JSONObject();
+                try {
+                    jsonMessage.put("type", "test");
+
+                    JSONObject dataObject = new JSONObject();
+                    dataObject.put("key1", "value1");
+                    dataObject.put("key2", 123);
+                    dataObject.put("key3", true);
+                    jsonMessage.put("data", dataObject);
+
+                    webSocketClient.sendJsonMessage(jsonMessage);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 5000);
+
     }
+
+    @Override
+    protected void initMapView(@Nullable Bundle savedInstanceState) {
+        MapsInitializer.updatePrivacyShow(this, true, true);
+        MapsInitializer.updatePrivacyAgree(this, true);
+
+        mapView = findViewById(R.id.map);
+        mapView.onCreate(savedInstanceState);
+        aMap = mapView.getMap();
+
+        mapManager = MapManager.getInstance(this);
+        mapManager.init(aMap);
+        mapManager.locationInTime();
+        mapManager.initLocation(this);
+    }
+
+    // 订阅文本消息事件
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onWebSocketTextMessage(WSTextMessageEvent event) {
+        String message = event.getMessage();
+        Log.e(TAG, "Received Text:" + event.getMessage());
+    }
+
+    // 订阅 JSON 消息事件
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onWebSocketJsonMessage(WSJsonMessageEvent event) {
+        JSONObject jsonMessage = event.getJsonMessage();
+        Log.e(TAG, "Received JSON:" + jsonMessage.toString());
+
+        try {
+            String type = jsonMessage.getString("type"); // 获取消息类型
+
+            switch (type) {
+                case "messageType1":
+                    handleMessageType1(jsonMessage.getJSONObject("data"));
+                    break;
+                case "messageType2":
+                    handleMessageType2(jsonMessage.getJSONObject("data"));
+                    break;
+                case "messageType3":
+                    handleMessageType3(jsonMessage.getJSONObject("data"));
+                    break;
+                default:
+                    Log.e(TAG, "Unknown message type: " + type);
+                    break;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // 处理不同消息类型的逻辑
+    private void handleMessageType1(JSONObject data) {
+        // 处理消息类型1的逻辑
+        Log.e(TAG, "Handling message type 1 with data: " + data.toString());
+    }
+
+    private void handleMessageType2(JSONObject data) {
+        // 处理消息类型2的逻辑
+        Log.e(TAG, "Handling message type 2 with data: " + data.toString());
+    }
+
+    private void handleMessageType3(JSONObject data) {
+        // 处理消息类型3的逻辑
+        Log.e(TAG, "Handling message type 3 with data: " + data.toString());
+    }
+
+    // 订阅二进制消息事件
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onWebSocketBinaryMessage(WSBinaryMessageEvent event) {
+        byte[] data = event.getData();
+        Log.e(TAG, "Received Binary Data of Length:: " + Arrays.toString(event.getData()));
+    }
+
 
     @SuppressLint("SetTextI18n")
     private void updateStatusView(SerialDataBean dataBean) {
@@ -337,7 +441,7 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
 
     private void notifyWarning(String text) {
         ttsManager.speakText("$text,");
-        warnDataBeanList.add(new WarnDataBean(text,System.currentTimeMillis()));
+        warnDataBeanList.add(new WarnDataBean(text, System.currentTimeMillis()));
         warningAdapter.notifyDataSetChanged();
     }
 
@@ -361,6 +465,20 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if (!EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().register(this);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         if (controllerManager != null) {
@@ -377,6 +495,9 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
         }
         if (ttsManager != null) {
             ttsManager.release();
+        }
+        if (webSocketClient != null) {
+            webSocketClient.close();
         }
     }
 }

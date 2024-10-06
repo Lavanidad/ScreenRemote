@@ -57,5 +57,5 @@ dependencies {
     implementation(libs.utilcode)
     implementation(libs.toaster)
     implementation(libs.xxpermissions);
-
+    implementation(libs.eventBus)
 }

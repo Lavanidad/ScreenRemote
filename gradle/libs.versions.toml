@@ -26,6 +26,7 @@ okio = "3.0.0"
 toaster = "12.6"
 xxpermissions = "20.0"
 baseRecyclerViewAdapterHelper = "3.0.14"
+eventbus = "3.3.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -61,8 +62,9 @@ rxlifecycler-android = { module = "com.trello.rxlifecycle4:rxlifecycle-android",
 rxlifecycler-compnents = { module = "com.trello.rxlifecycle4:rxlifecycle-components", version.ref = "rxlifecycler" }
 
 baseRecyclerViewAdapterHelper = { module = "io.github.cymchad:BaseRecyclerViewAdapterHelper", version.ref = "baseRecyclerViewAdapterHelper" }
-[bundles]
-#dagger = ["dagger-android", "dagger-compiler", "dagger-android-support", "dagger-android-processor"]
+eventBus = { module = "org.greenrobot:eventbus", version.ref = "eventbus" }
+
+[bundles]#dager = ["dagger-android", "dagger-compiler", "dagger-android-support", "dagger-android-processor"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

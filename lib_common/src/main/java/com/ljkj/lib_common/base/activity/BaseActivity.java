@@ -61,7 +61,6 @@ public abstract class BaseActivity<P extends AbstractBasePresenter, VB extends V
             mPresenter.attachView(this);
         }
         PermissionUtils.requestPermissions(this, PermissionUtils.REQUIRED_PERMISSIONS);
-        initView();
         initMapView(savedInstanceState);
     }
 

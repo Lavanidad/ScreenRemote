@@ -59,6 +59,8 @@ dependencies {
     implementation(libs.xxpermissions)
     implementation(libs.utilcode)
     implementation(libs.baseRecyclerViewAdapterHelper)
+    implementation(libs.eventBus)
+    implementation(libs.okhttp)
 
     implementation project(path: ':lib_common')
     implementation files("libs/rcsdk-v1.6.2.aar")
